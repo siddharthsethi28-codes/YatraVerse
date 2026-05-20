@@ -1,0 +1,3798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YatraVerse — Find Your Perfect Tour</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-darker: #085041;
+    --green-light: #E1F5EE;
+    --green-mid: #9FE1CB;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --blue-light: #E6F1FB;
+    --blue: #378ADD;
+    --gray-100: #F1EFE8;
+    --gray-200: #D3D1C7;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --gray-900: #2C2C2A;
+    --white: #ffffff;
+    --text: #1a1a18;
+    --text-muted: #5F5E5A;
+    --border: rgba(0,0,0,0.08);
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --radius-full: 999px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f7f6f2;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--green-dark);
+    cursor: pointer;
+  }
+  .logo span { color: var(--amber); }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-btn.outline {
+    background: transparent;
+    border: 1.5px solid var(--green);
+    color: var(--green);
+  }
+  .nav-btn.outline:hover { background: var(--green-light); }
+  .nav-btn.solid {
+    background: var(--green);
+    color: white;
+  }
+  .nav-btn.solid:hover { background: var(--green-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green-darker);
+    padding: 5rem 2rem 6rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero-bg-circle:nth-child(1) { width: 400px; height: 400px; top: -150px; right: -100px; }
+  .hero-bg-circle:nth-child(2) { width: 300px; height: 300px; bottom: -100px; left: -80px; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(157,225,203,0.2);
+    color: var(--green-mid);
+    border: 1px solid rgba(157,225,203,0.3);
+    border-radius: var(--radius-full);
+    padding: 5px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: white;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .hero h1 em { color: var(--green-mid); font-style: italic; }
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  /* Search */
+  .search-wrap {
+    background: white;
+    border-radius: var(--radius);
+    padding: 8px;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  .search-wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    background: transparent;
+  }
+  .search-wrap select {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    padding: 8px 10px;
+    border-left: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+  }
+  .search-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: var(--green-dark); }
+
+  /* Stats */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    position: relative;
+  }
+  .stat { text-align: center; }
+  .stat-n { font-size: 1.6rem; font-weight: 600; color: white; }
+  .stat-l { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* ── FILTERS ── */
+  .filters-row {
+    display: flex;
+    gap: 10px;
+    padding: 1.5rem 2rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: white;
+    border-bottom: 1px solid var(--border);
+  }
+  .filters-row::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 7px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    background: white;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-chip:hover { border-color: var(--green); color: var(--green); }
+  .filter-chip.active { background: var(--green); color: white; border-color: var(--green); }
+
+  /* ── MAIN LAYOUT ── */
+  .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .section-hd {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .section-hd h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gray-900);
+  }
+  .see-all {
+    font-size: 13px;
+    color: var(--green);
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* ── TOUR CARDS ── */
+  .tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+  }
+  .tour-card {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .tour-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+  .card-img {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    position: relative;
+  }
+  .img-goa { background: linear-gradient(135deg, #B5D4F4, #85B7EB); }
+  .img-manali { background: linear-gradient(135deg, #C0DD97, #97C459); }
+  .img-rajasthan { background: linear-gradient(135deg, #FAC775, #EF9F27); }
+  .img-kerala { background: linear-gradient(135deg, #9FE1CB, #5DCAA5); }
+  .img-kashmir { background: linear-gradient(135deg, #CCC, #888); }
+  .img-andaman { background: linear-gradient(135deg, #B5D4F4, #378ADD); }
+
+  .card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.92);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-dark);
+  }
+  .card-hot {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--coral);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .card-body { padding: 1rem 1.1rem 1.1rem; }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 6px; }
+  .card-meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-price { font-size: 18px; font-weight: 600; color: var(--green-dark); }
+  .card-price small { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+  .card-btn {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .card-btn:hover { background: var(--green); color: white; }
+
+  /* ── AGENT CARDS ── */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .agent-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .agent-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--green-mid); }
+  .agent-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .av-green { background: var(--green-light); color: var(--green-dark); }
+  .av-amber { background: var(--amber-light); color: #854F0B; }
+  .av-blue { background: var(--blue-light); color: #185FA5; }
+  .av-coral { background: var(--coral-light); color: #993C1D; }
+  .agent-info { flex: 1; min-width: 0; }
+  .agent-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+  .agent-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .verified-badge {
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    margin-top: 6px;
+    display: inline-block;
+  }
+
+  /* ── TOUR DETAIL PAGE ── */
+  .detail-hero {
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    position: relative;
+  }
+  .back-btn {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .detail-body { max-width: 800px; margin: 0 auto; padding: 2rem; }
+  .detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+  }
+  .detail-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .dtag {
+    background: var(--gray-100);
+    border-radius: var(--radius-full);
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--gray-600);
+    font-weight: 500;
+  }
+  .detail-price-row {
+    background: var(--green-light);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .detail-price { font-size: 2rem; font-weight: 600; color: var(--green-dark); }
+  .detail-price small { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+  .contact-agent-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .contact-agent-btn:hover { background: var(--green-dark); }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  /* Itinerary */
+  .itin-list { display: flex; flex-direction: column; gap: 0; }
+  .itin-item {
+    display: flex;
+    gap: 16px;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .itin-item:last-child { border-bottom: none; }
+  .itin-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .itin-content { flex: 1; }
+  .itin-day-title { font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+  .itin-day-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* Highlights */
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .highlight-item {
+    background: var(--gray-100);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hi-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+
+  /* Agent contact card */
+  .agent-contact-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .agent-contact-row { display: flex; gap: 14px; align-items: center; margin-bottom: 1rem; }
+  .agent-contact-info h4 { font-size: 15px; font-weight: 600; color: var(--gray-900); }
+  .agent-contact-info p { font-size: 12px; color: var(--text-muted); }
+  .contact-methods { display: flex; flex-direction: column; gap: 8px; }
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--gray-100);
+  }
+  .contact-method span { font-weight: 500; }
+
+  /* ── AGENT PROFILE PAGE ── */
+  .profile-hero {
+    background: var(--green-darker);
+    padding: 3rem 2rem 5rem;
+    text-align: center;
+    position: relative;
+  }
+  .profile-back-btn {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .profile-avatar-lg {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 600;
+    margin: 0 auto 1rem;
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+  .profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+  .profile-sub { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 1rem; }
+  .profile-stats { display: flex; justify-content: center; gap: 2.5rem; }
+  .ps { text-align: center; }
+  .ps-n { font-size: 1.4rem; font-weight: 600; color: white; }
+  .ps-l { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+  .profile-body { max-width: 800px; margin: -2rem auto 0; padding: 0 2rem 3rem; position: relative; }
+  .profile-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+  .profile-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 1rem; color: var(--gray-900); }
+  .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--text-muted); }
+  .info-value { font-weight: 500; color: var(--gray-900); }
+
+  /* ── LOGIN PAGE ── */
+  .login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-100);
+    padding: 2rem;
+  }
+  .login-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+  .login-logo { text-align: center; margin-bottom: 2rem; }
+  .login-logo .logo { font-size: 26px; display: block; margin-bottom: 0.5rem; }
+  .login-logo p { font-size: 13px; color: var(--text-muted); }
+  .login-tabs { display: flex; background: var(--gray-100); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 1.75rem; }
+  .login-tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .login-tab.active { background: white; color: var(--green-dark); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+  .form-group { margin-bottom: 1.1rem; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; letter-spacing: 0.3px; }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    background: white;
+  }
+  .form-input:focus { border-color: var(--green); }
+  .form-submit {
+    width: 100%;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--green-dark); }
+  .form-divider { text-align: center; font-size: 12px; color: var(--text-muted); margin: 1rem 0; }
+
+  /* ── DASHBOARD PAGE ── */
+  .dashboard-nav {
+    background: var(--green-darker);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .dashboard-nav .logo { color: white; }
+  .dashboard-nav .logo span { color: var(--green-mid); }
+  .agent-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--radius-full);
+    padding: 6px 14px 6px 6px;
+  }
+  .agent-pill-av {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+  }
+  .agent-pill-name { font-size: 13px; color: white; font-weight: 500; }
+
+  .dash-body { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+  .dash-welcome {
+    margin-bottom: 2rem;
+  }
+  .dash-welcome h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--gray-900);
+    margin-bottom: 4px;
+  }
+  .dash-welcome p { font-size: 14px; color: var(--text-muted); }
+
+  .dash-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .ds-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+  }
+  .ds-num { font-size: 1.8rem; font-weight: 600; color: var(--green-dark); }
+  .ds-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media(max-width: 700px) { .dash-grid { grid-template-columns: 1fr; } }
+
+  .dash-panel {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-header h3 { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+  .panel-action {
+    font-size: 12px;
+    color: var(--green);
+    cursor: pointer;
+    font-weight: 500;
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Add Tour Form */
+  .add-tour-form { padding: 1.25rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-select {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    background: white;
+    cursor: pointer;
+  }
+  .form-select:focus { border-color: var(--green); }
+  .form-textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    resize: vertical;
+    min-height: 80px;
+  }
+  .form-textarea:focus { border-color: var(--green); }
+
+  /* My Tours list */
+  .my-tour-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .my-tour-item:last-child { border-bottom: none; }
+  .my-tour-icon {
+    width: 42px; height: 42px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .my-tour-info { flex: 1; min-width: 0; }
+  .my-tour-name { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+  .my-tour-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .my-tour-price { font-size: 13px; font-weight: 600; color: var(--green-dark); }
+  .del-btn {
+    background: var(--coral-light);
+    color: var(--coral);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 5px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── IMAGE UPLOAD SECTION ── */
+  .img-upload-area {
+    border: 2px dashed var(--green-mid);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-align: center;
+    background: var(--green-lighter, #f0faf6);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .img-upload-area:hover { border-color: var(--green); background: var(--green-light); }
+  .img-upload-area.drag-over { border-color: var(--green); background: var(--green-light); transform: scale(1.01); }
+  .img-upload-area input[type="file"] { display: none; }
+  .img-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .img-upload-title { font-size: 13px; font-weight: 600; color: var(--green-dark); }
+  .img-upload-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .img-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .img-preview-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    background: var(--gray-100);
+  }
+  .img-preview-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .img-preview-item .img-preview-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.55);
+    color: white; font-size: 9px;
+    padding: 3px 5px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .img-preview-item .img-remove-btn {
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(216,90,48,0.9);
+    border: none; border-radius: 50%;
+    width: 20px; height: 20px;
+    color: white; font-size: 11px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+  }
+  .img-preview-item .img-hero-badge {
+    position: absolute; top: 4px; left: 4px;
+    background: var(--green);
+    color: white; font-size: 8px; font-weight: 600;
+    padding: 2px 5px; border-radius: 4px;
+  }
+  .img-count-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--green-light); color: var(--green-dark);
+    border-radius: var(--radius-full); padding: 3px 10px;
+    font-size: 11px; font-weight: 600; margin-top: 6px;
+  }
+  .img-set-hero-btn {
+    position: absolute; bottom: 22px; left: 0; right: 0;
+    background: rgba(8,80,65,0.85);
+    color: white; font-size: 9px; font-weight: 600;
+    text-align: center; padding: 3px;
+    cursor: pointer; opacity: 0; transition: opacity 0.2s;
+    border: none; width: 100%;
+  }
+  .img-preview-item:hover .img-set-hero-btn { opacity: 1; }
+
+  /* My Tours — image thumbnails */
+  .my-tour-imgs {
+    display: flex; gap: 4px; margin-top: 4px;
+  }
+  .my-tour-thumb {
+    width: 32px; height: 32px; border-radius: 4px;
+    object-fit: cover; border: 1px solid var(--border);
+  }
+  .my-tour-thumb-count {
+    width: 32px; height: 32px; border-radius: 4px;
+    background: var(--gray-100); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 600; color: var(--text-muted);
+  }
+
+  .logout-btn {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: var(--radius-full);
+    padding: 7px 16px;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .logout-btn:hover { background: rgba(255,255,255,0.1); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--gray-900);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page.active { animation: fadeUp 0.3s ease; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-box h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .modal-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; }
+  .modal-contact-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .modal-contact-item strong { display: block; font-size: 12px; color: var(--text-muted); }
+  .modal-close {
+    width: 100%;
+    background: var(--gray-100);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+
+  /* ── SEARCH RESULTS PAGE ── */
+  .search-results-nav {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .sr-search-wrap {
+    background: var(--gray-100);
+    border-radius: var(--radius-full);
+    padding: 6px 8px 6px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 500px;
+    margin: 0 1.5rem;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .sr-search-wrap:focus-within { border-color: var(--green); background: white; }
+  .sr-search-wrap input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    flex: 1;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sr-search-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .sr-hero {
+    background: var(--green-darker);
+    padding: 2rem 2rem 1.5rem;
+  }
+  .sr-hero-inner { max-width: 1200px; margin: 0 auto; }
+  .sr-breadcrumb { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; cursor: pointer; }
+  .sr-breadcrumb span { color: rgba(255,255,255,0.8); }
+  .sr-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+  .sr-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); }
+
+  .sr-body { max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+
+  .sr-filters-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+  .sr-filter-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+
+  .sr-sort-select {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 7px 14px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: white;
+    cursor: pointer;
+    outline: none;
+    margin-left: auto;
+  }
+
+  .sr-results-count {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sr-results-count strong { color: var(--text); }
+
+  .sr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .sr-no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+  }
+  .sr-no-results .nr-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .sr-no-results h3 { font-size: 1.2rem; color: var(--gray-900); margin-bottom: 0.5rem; }
+  .sr-no-results p { font-size: 14px; margin-bottom: 1.5rem; }
+  .sr-no-results button {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+
+  .sr-also-section { margin-top: 2.5rem; }
+  .sr-also-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── PHOTO GALLERY ── */
+  .tour-photo-hero {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    display: block;
+    background: var(--gray-200);
+  }
+  .tour-photo-hero-wrap {
+    position: relative;
+    height: 340px;
+    overflow: hidden;
+    background: var(--gray-200);
+  }
+  .tour-photo-hero-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-loading {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    background: var(--gray-100);
+  }
+
+  .place-photos-section { margin-top: 0.5rem; }
+  .place-photos-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 0.5rem 0 0.75rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-mid) transparent;
+  }
+  .place-photos-scroll::-webkit-scrollbar { height: 4px; }
+  .place-photos-scroll::-webkit-scrollbar-thumb { background: var(--green-mid); border-radius: 4px; }
+
+  .place-photo-card {
+    flex-shrink: 0;
+    width: 160px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s;
+    background: var(--gray-100);
+  }
+  .place-photo-card:hover { transform: scale(1.03); }
+  .place-photo-card img {
+    width: 160px; height: 100px;
+    object-fit: cover;
+    display: block;
+    background: var(--gray-200);
+  }
+  .place-photo-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-600);
+    padding: 5px 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* lightbox */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .lightbox-caption {
+    color: white;
+    font-size: 14px;
+    margin-top: 1rem;
+    opacity: 0.8;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* card image with real photo */
+  .card-img {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    background: var(--gray-200);
+  }
+  .card-img img.card-real-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .tour-card:hover .card-real-photo { transform: scale(1.05); }
+  .card-img .card-emoji-fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+  }
+
+  /* ══════════════════════════════════════
+     REGISTRATION POPUP
+  ══════════════════════════════════════ */
+  .reg-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,30,20,0.55);
+    z-index: 600; align-items: center; justify-content: center; padding: 1rem;
+    backdrop-filter: blur(4px);
+  }
+  .reg-overlay.open { display: flex; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+  .reg-popup {
+    background: white; border-radius: 20px;
+    width: 100%; max-width: 480px;
+    overflow: hidden; position: relative;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.2);
+    animation: slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes slideUp { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+  .reg-popup-hero {
+    background: var(--green-darker);
+    padding: 2rem 2rem 1.5rem;
+    text-align: center; position: relative;
+  }
+  .reg-popup-hero-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .reg-popup-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: white; margin-bottom: 0.4rem;
+  }
+  .reg-popup-hero p { font-size: 13px; color: rgba(255,255,255,0.65); }
+  .reg-popup-perks {
+    display: flex; justify-content: center; gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .reg-perk { text-align: center; }
+  .reg-perk-icon { font-size: 1.2rem; }
+  .reg-perk-text { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  .reg-popup-body { padding: 1.5rem 1.75rem 1.75rem; }
+  .reg-popup-body .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .reg-popup-close {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    color: white;
+    border-radius: 50%; width: 36px; height: 36px;
+    font-size: 18px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; z-index: 10;
+    line-height: 1;
+  }
+  .reg-popup-close:hover {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.1);
+  }
+  .reg-popup-skip {
+    text-align: center; margin-top: 1rem;
+    font-size: 12px; color: var(--text-muted); cursor: pointer;
+  }
+  .reg-popup-skip:hover { color: var(--text); }
+  .reg-already-member {
+    text-align: center; margin-top: 0.75rem;
+    font-size: 12px; color: var(--text-muted);
+  }
+  .reg-already-member span { color: var(--green); cursor: pointer; font-weight: 500; }
+
+  /* Welcome back banner */
+  .welcome-back-bar {
+    display: none;
+    background: linear-gradient(135deg, var(--green-darker), var(--green-dark));
+    color: white; padding: 0.75rem 2rem;
+    font-size: 13px; align-items: center; gap: 12px;
+  }
+  .welcome-back-bar.show { display: flex; }
+  .wb-name { font-weight: 600; }
+  .wb-history { 
+    background: rgba(255,255,255,0.15); border-radius: var(--radius-full);
+    padding: 4px 12px; font-size: 11px; cursor: pointer;
+    border: none; color: white; margin-left: auto;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Search history chips */
+  .search-history-wrap {
+    display: none; padding: 0.75rem 2rem;
+    background: white; border-bottom: 1px solid var(--border);
+    gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .search-history-wrap.show { display: flex; }
+  .sh-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+  .sh-chip {
+    background: var(--green-light); color: var(--green-dark);
+    border-radius: var(--radius-full); padding: 4px 12px;
+    font-size: 12px; font-weight: 500; cursor: pointer; border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sh-chip:hover { background: var(--green-mid); }
+
+  /* ══════════════════════════════════════
+     FEATURE TOUR (IRCTC style walkthrough)
+  ══════════════════════════════════════ */
+  .tour-overlay-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); z-index: 700;
+    pointer-events: none;
+  }
+  .tour-overlay-backdrop.on { display: block; }
+
+  .tour-spotlight {
+    position: fixed; z-index: 701;
+    border-radius: 12px;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.6);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .tour-bubble {
+    display: none; position: fixed; z-index: 702;
+    background: white; border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    max-width: 300px; min-width: 220px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    animation: bubblePop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes bubblePop { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+  .tour-bubble.on { display: block; }
+  .tour-bubble::before {
+    content: ''; position: absolute;
+    width: 14px; height: 14px;
+    background: white;
+    transform: rotate(45deg);
+  }
+  .tour-bubble.arrow-top::before { top: -7px; left: 24px; }
+  .tour-bubble.arrow-bottom::before { bottom: -7px; left: 24px; }
+  .tour-bubble.arrow-left::before { left: -7px; top: 20px; }
+  .tour-bubble.arrow-right::before { right: -7px; top: 20px; }
+
+  .tb-step { font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: 1px; margin-bottom: 0.4rem; }
+  .tb-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 0.4rem; }
+  .tb-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem; }
+  .tb-actions { display: flex; gap: 8px; justify-content: space-between; align-items: center; }
+  .tb-dots { display: flex; gap: 4px; }
+  .tb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-200); }
+  .tb-dot.active { background: var(--green); width: 16px; border-radius: 3px; }
+  .tb-next {
+    background: var(--green); color: white; border: none;
+    border-radius: var(--radius-full); padding: 7px 18px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tb-skip {
+    font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ══════════════════════════════════════
+     PRICE COMPARISON CHART
+  ══════════════════════════════════════ */
+  .price-chart-section {
+    background: white; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0; margin: 1rem 0;
+  }
+  .price-chart-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  .price-chart-hd { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; }
+  .price-chart-hd h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+  .price-chart-hd p { font-size: 12px; color: var(--text-muted); }
+
+  .chart-container { position: relative; overflow-x: auto; }
+  .chart-bars {
+    display: flex; align-items: flex-end; gap: 12px;
+    height: 180px; padding: 0 4px 0;
+    min-width: 400px;
+  }
+  .chart-bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 60px; }
+  .chart-bar-wrap { display: flex; align-items: flex-end; gap: 3px; width: 100%; justify-content: center; }
+  .chart-bar {
+    border-radius: 6px 6px 0 0;
+    width: 28px; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .chart-bar:hover { opacity: 0.85; transform: scaleY(1.03); transform-origin: bottom; }
+  .chart-bar.primary { background: var(--green); }
+  .chart-bar.avg { background: var(--gray-200); }
+  .chart-bar-price {
+    font-size: 9px; font-weight: 600; color: var(--gray-600);
+    margin-bottom: 4px; white-space: nowrap;
+  }
+  .chart-bar-label {
+    font-size: 10px; color: var(--text-muted); text-align: center;
+    margin-top: 6px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; max-width: 70px;
+  }
+  .chart-legend {
+    display: flex; gap: 1.5rem; margin-top: 1rem;
+    font-size: 12px; color: var(--text-muted);
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 5px; }
+  .chart-x-line {
+    border-top: 1px dashed var(--border);
+    position: absolute; left: 0; right: 0;
+  }
+
+  /* Savings badge on cards */
+  .savings-badge {
+    position: absolute; bottom: 10px; left: 10px;
+    background: var(--green);
+    color: white; font-size: 10px; font-weight: 600;
+    padding: 3px 10px; border-radius: var(--radius-full);
+  }
+
+  /* ══════════════════════════════════════
+     UX IMPROVEMENTS
+  ══════════════════════════════════════ */
+  /* Floating scroll-to-top */
+  .scroll-top-btn {
+    position: fixed; bottom: 2rem; right: 1.5rem;
+    background: var(--green-dark); color: white;
+    border: none; border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 18px; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(15,110,86,0.3);
+    display: none; align-items: center; justify-content: center;
+    z-index: 90; transition: all 0.2s;
+  }
+  .scroll-top-btn.visible { display: flex; }
+  .scroll-top-btn:hover { background: var(--green); transform: translateY(-2px); }
+
+  /* Trust bar */
+  .trust-bar {
+    background: var(--green-lighter, #f0faf6);
+    border-bottom: 1px solid var(--green-light);
+    padding: 0.6rem 2rem;
+    display: flex; gap: 2rem; justify-content: center;
+    font-size: 12px; color: var(--green-dark); flex-wrap: wrap;
+  }
+  .trust-item { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+
+  /* Sticky search bar when scrolled */
+  .sticky-search {
+    display: none; position: sticky; top: 64px; z-index: 99;
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 0.75rem 2rem; gap: 10px; align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .sticky-search.visible { display: flex; }
+  .sticky-search input {
+    flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius-full);
+    padding: 8px 16px; font-size: 14px; outline: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sticky-search input:focus { border-color: var(--green); }
+  .sticky-search button {
+    background: var(--green); color: white; border: none;
+    border-radius: var(--radius-full); padding: 9px 20px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Section divider */
+  .section-divider {
+    height: 1px; background: var(--border); margin: 0.5rem 0 1.5rem;
+  }
+
+  /* ══════════════════════════════════════
+     USER PROFILE & NAV DROPDOWN
+  ══════════════════════════════════════ */
+  .user-nav-pill {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-light);
+    border: 1.5px solid var(--green-mid);
+    border-radius: var(--radius-full);
+    padding: 5px 14px 5px 6px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .user-nav-pill:hover { background: var(--green-mid); }
+  .user-nav-pill.show { display: flex; }
+  .user-nav-av {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--green); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+  }
+  .user-nav-name { font-size: 13px; font-weight: 500; color: var(--green-dark); }
+  .user-nav-arrow { font-size: 10px; color: var(--green-dark); }
+
+  /* Dropdown */
+  .user-dropdown {
+    display: none; position: absolute;
+    top: calc(100% + 8px); right: 0;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    min-width: 220px; z-index: 200;
+    overflow: hidden;
+    animation: fadeDown 0.2s ease;
+  }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .user-dropdown.open { display: block; }
+
+  .dropdown-header {
+    background: var(--green-darker);
+    padding: 1rem 1.25rem;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .dropdown-header-av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green-mid); color: var(--green-darker);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; flex-shrink: 0;
+  }
+  .dropdown-header-name { font-size: 14px; font-weight: 600; color: white; }
+  .dropdown-header-email { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 1px; }
+
+  .dropdown-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 1.25rem; cursor: pointer;
+    font-size: 13px; color: var(--text);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--gray-100); }
+  .dropdown-item-icon { font-size: 16px; width: 20px; text-align: center; }
+  .dropdown-item.danger { color: var(--coral); }
+  .dropdown-item.danger:hover { background: var(--coral-light); }
+
+  /* ══════════════════════════════════════
+     USER PROFILE PAGE
+  ══════════════════════════════════════ */
+  .user-profile-page { min-height: 100vh; background: #f7f6f2; }
+
+  .user-profile-hero {
+    background: var(--green-darker);
+    padding: 2.5rem 2rem 5rem;
+    text-align: center; position: relative;
+  }
+  .user-profile-back {
+    position: absolute; top: 1rem; left: 1rem;
+    background: rgba(255,255,255,0.15); border: none;
+    color: white; border-radius: var(--radius-full);
+    padding: 7px 16px; font-size: 13px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .user-profile-av {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--green-mid); color: var(--green-darker);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700;
+    margin: 0 auto 1rem;
+    border: 3px solid rgba(255,255,255,0.25);
+  }
+  .user-profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: white; margin-bottom: 0.25rem;
+  }
+  .user-profile-email { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .user-member-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(157,225,203,0.2);
+    color: var(--green-mid); border: 1px solid rgba(157,225,203,0.3);
+    border-radius: var(--radius-full); padding: 4px 14px;
+    font-size: 11px; font-weight: 500; margin-top: 0.75rem;
+  }
+
+  .user-profile-body {
+    max-width: 700px; margin: -2.5rem auto 0;
+    padding: 0 1.5rem 3rem; position: relative;
+  }
+
+  .user-card {
+    background: white; border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem; overflow: hidden;
+  }
+  .user-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .user-card-header h3 { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+  .user-card-body { padding: 1.25rem; }
+
+  .profile-edit-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+  }
+  .profile-edit-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .pe-label { font-size: 12px; color: var(--text-muted); font-weight: 500; min-width: 90px; margin-top: 2px; }
+  .pe-value { font-size: 14px; color: var(--gray-900); flex: 1; font-weight: 500; }
+  .pe-edit-input {
+    flex: 1; border: 1.5px solid var(--green);
+    border-radius: var(--radius-sm); padding: 6px 10px;
+    font-size: 13px; outline: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .pe-edit-btn {
+    font-size: 11px; color: var(--green); cursor: pointer;
+    background: none; border: none; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; padding: 0 6px;
+  }
+
+  .search-hist-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .search-hist-item:last-child { border-bottom: none; }
+  .search-hist-item:hover .shi-text { color: var(--green); }
+  .shi-icon { font-size: 14px; color: var(--text-muted); }
+  .shi-text { font-size: 13px; font-weight: 500; flex: 1; }
+  .shi-arrow { font-size: 11px; color: var(--text-muted); }
+
+  .logout-full-btn {
+    width: 100%;
+    background: var(--coral-light); color: var(--coral);
+    border: 1.5px solid var(--coral);
+    border-radius: var(--radius-sm); padding: 12px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s; margin-top: 0.5rem;
+  }
+  .logout-full-btn:hover { background: var(--coral); color: white; }
+
+  /* Interest tag pills */
+  .interest-pill {
+    display: inline-block;
+    background: var(--green-light); color: var(--green-dark);
+    border-radius: var(--radius-full); padding: 4px 12px;
+    font-size: 12px; font-weight: 500; margin: 3px;
+  }
+
+  /* Responsive */
+  @media(max-width: 600px) {
+    .hero { padding: 3rem 1.25rem 4rem; }
+    .main-container { padding: 1.25rem; }
+    .stats-bar { gap: 1.5rem; }
+    .dash-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    nav { padding: 0 1.25rem; }
+    .filters-row { padding: 1rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PAGE: HOME ═══════════ -->
+<div id="page-home" class="page active">
+  <nav>
+    <div class="logo" onclick="goHome()">Yatra<span>Verse</span></div>
+    <div class="nav-links" style="position:relative;">
+
+      <!-- Register/Login button — only shown when user is NOT registered -->
+      <button class="nav-btn solid" id="nav-user-reg-btn" onclick="openRegPopup()"
+        style="background:var(--green);color:white;">
+        Register / Login
+      </button>
+
+      <button class="nav-btn outline" id="nav-login-btn" onclick="showPage('page-login')">Agency Login</button>
+
+      <!-- User pill (shown when logged in) -->
+      <div class="user-nav-pill" id="user-nav-pill" onclick="toggleUserDropdown()">
+        <div class="user-nav-av" id="user-nav-av">R</div>
+        <span class="user-nav-name" id="user-nav-name">User</span>
+        <span class="user-nav-arrow">▾</span>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="user-dropdown" id="user-dropdown">
+        <div class="dropdown-header">
+          <div class="dropdown-header-av" id="dd-av">R</div>
+          <div>
+            <div class="dropdown-header-name" id="dd-name">Rahul Sharma</div>
+            <div class="dropdown-header-email" id="dd-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="01736069746d416479606c716d642f626e6c">[email&#160;protected]</a></div>
+          </div>
+        </div>
+        <div class="dropdown-item" onclick="showUserProfile(); toggleUserDropdown()">
+          <span class="dropdown-item-icon">👤</span> My Profile
+        </div>
+        <div class="dropdown-item" onclick="showUserSearchHistory(); toggleUserDropdown()">
+          <span class="dropdown-item-icon">🔍</span> Search History
+        </div>
+        <div class="dropdown-item" onclick="goToSearch('','All'); toggleUserDropdown()">
+          <span class="dropdown-item-icon">🗺️</span> Browse All Tours
+        </div>
+        <div class="dropdown-item danger" onclick="userLogout()">
+          <span class="dropdown-item-icon">🚪</span> Logout
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Trust Bar -->
+  <div class="trust-bar">
+    <div class="trust-item">✓ 500+ Verified Tours</div>
+    <div class="trust-item">✓ 120+ Trusted Agencies</div>
+    <div class="trust-item">✓ Direct Agent Contact</div>
+    <div class="trust-item">✓ No Hidden Fees</div>
+  </div>
+
+  <!-- Welcome Back Bar (for returning users) -->
+  <div class="welcome-back-bar" id="welcome-back-bar">
+    <span>👋 Welcome back, <span class="wb-name" id="wb-name">Traveler</span>!</span>
+    <span style="font-size:12px;opacity:0.7;">Continue exploring where you left off</span>
+    <button class="wb-history" onclick="showSearchHistory()">Your searches →</button>
+  </div>
+
+  <!-- Search History (for returning users) -->
+  <div class="search-history-wrap" id="search-history-wrap">
+    <span class="sh-label">Recent searches:</span>
+    <div id="search-history-chips"></div>
+  </div>
+
+  <!-- Sticky Search (appears on scroll) -->
+  <div class="sticky-search" id="sticky-search">
+    <input type="text" id="sticky-input" placeholder="Search tours, destinations...">
+    <button onclick="goToSearch(document.getElementById('sticky-input').value)">Search</button>
+  </div>
+
+  <section class="hero">
+    <div class="hero-bg-circle"></div>
+    <div class="hero-bg-circle"></div>
+    <div class="hero-tag">🌍 India's Tour Discovery Platform</div>
+    <h1>Discover <em>Incredible</em><br>Tours Across India</h1>
+    <p>Browse 500+ handpicked tours from verified travel agencies</p>
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="Search destination, tour name..." onkeydown="if(event.key==='Enter') goToSearch()">
+      <select id="search-cat">
+        <option value="">All Categories</option>
+        <option value="Beach">Beach</option>
+        <option value="Hill Station">Hills</option>
+        <option value="Heritage">Heritage</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Nature">Nature</option>
+      </select>
+      <button class="search-btn" onclick="goToSearch()">Search</button>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-n" id="tour-count">6</div><div class="stat-l">Tours Listed</div></div>
+      <div class="stat"><div class="stat-n">4</div><div class="stat-l">Verified Agencies</div></div>
+      <div class="stat"><div class="stat-n">4.8★</div><div class="stat-l">Avg Rating</div></div>
+    </div>
+  </section>
+
+  <div class="filters-row" id="filters-row">
+    <button class="filter-chip active" onclick="goToSearch('', 'All')">All</button>
+    <button class="filter-chip" onclick="goToSearch('', 'Beach')">🏖 Beach</button>
+    <button class="filter-chip" onclick="goToSearch('', 'Hill Station')">🏔 Hill Station</button>
+    <button class="filter-chip" onclick="goToSearch('', 'Heritage')">🏰 Heritage</button>
+    <button class="filter-chip" onclick="goToSearch('', 'Adventure')">🧗 Adventure</button>
+    <button class="filter-chip" onclick="goToSearch('', 'Nature')">🌿 Nature</button>
+  </div>
+
+  <div class="main-container">
+    <div class="section-hd">
+      <h2>Featured Tours</h2>
+      <span class="see-all" onclick="goToSearch('','All')">View all →</span>
+    </div>
+    <div class="tours-grid" id="tours-grid"></div>
+  </div>
+
+  <!-- Price Comparison Chart -->
+  <div class="price-chart-section">
+    <div class="price-chart-inner">
+      <div class="price-chart-hd">
+        <div>
+          <h2>Price Comparison</h2>
+          <p>Compare our tour prices vs average market rates</p>
+        </div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:var(--green);"></span>YatraVerse Price</span>
+          <span><span class="legend-dot" style="background:var(--gray-200);"></span>Market Average</span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <div class="chart-bars" id="price-chart-bars"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="section-hd" style="margin-top:1rem;">
+      <h2>Top Travel Agencies</h2>
+      <span class="see-all">View all →</span>
+    </div>
+    <div class="agents-grid" id="agents-grid"></div>
+  </div>
+</div>
+
+<!-- Scroll to top -->
+<button class="scroll-top-btn" id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════════ PAGE: SEARCH RESULTS ═══════════ -->
+<div id="page-search" class="page">
+  <div class="search-results-nav">
+    <div class="logo" onclick="goHome()" style="flex-shrink:0;">Yatra<span>Verse</span></div>
+    <div class="sr-search-wrap">
+      <input type="text" id="sr-input" placeholder="Search tours, destinations..." onkeydown="if(event.key==='Enter') doSearch()">
+      <button class="sr-search-btn" onclick="doSearch()">Search</button>
+    </div>
+    <button class="nav-btn outline" onclick="showPage('page-login')" style="flex-shrink:0;">Agency Login</button>
+  </div>
+
+  <div class="sr-hero">
+    <div class="sr-hero-inner">
+      <div class="sr-breadcrumb" onclick="goHome()">← Home &nbsp;/&nbsp; <span id="sr-breadcrumb-text">Search Results</span></div>
+      <div class="sr-title" id="sr-main-title">Search Results</div>
+      <div class="sr-subtitle" id="sr-main-subtitle">Showing all matching tours</div>
+    </div>
+  </div>
+
+  <div class="sr-body">
+    <div class="sr-filters-row">
+      <span class="sr-filter-label">Filter:</span>
+      <button class="filter-chip active" onclick="srSetFilter('All', this)">All</button>
+      <button class="filter-chip" onclick="srSetFilter('Beach', this)">🏖 Beach</button>
+      <button class="filter-chip" onclick="srSetFilter('Hill Station', this)">🏔 Hills</button>
+      <button class="filter-chip" onclick="srSetFilter('Heritage', this)">🏰 Heritage</button>
+      <button class="filter-chip" onclick="srSetFilter('Adventure', this)">🧗 Adventure</button>
+      <button class="filter-chip" onclick="srSetFilter('Nature', this)">🌿 Nature</button>
+      <select class="sr-sort-select" id="sr-sort" onchange="renderSearchResults()">
+        <option value="relevance">Sort: Relevance</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+
+    <div class="sr-results-count" id="sr-results-count"></div>
+    <div class="sr-grid" id="sr-grid"></div>
+
+    <div class="sr-also-section" id="sr-also-section" style="display:none;">
+      <div class="sr-also-title">You might also like</div>
+      <div class="sr-grid" id="sr-also-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: TOUR DETAIL ═══════════ -->
+<div id="page-detail" class="page">
+  <div class="tour-photo-hero-wrap" id="detail-hero-img">
+    <div class="photo-loading" id="detail-hero-loading">🏔️</div>
+    <img id="detail-hero-photo" src="" alt="" style="display:none;" onload="this.style.display='block';document.getElementById('detail-hero-loading').style.display='none';" onerror="this.style.display='none';">
+    <button class="back-btn" onclick="showPage(detailFromPage)" style="position:absolute;top:1rem;left:1rem;z-index:10;">← Back</button>
+  </div>
+  <div class="detail-body">
+    <div class="detail-title" id="detail-title">Tour Name</div>
+    <div class="detail-tags" id="detail-tags"></div>
+    <div class="detail-price-row">
+      <div>
+        <div style="font-size:12px;color:var(--text-muted);font-weight:500;margin-bottom:4px;">PRICE PER PERSON</div>
+        <div class="detail-price" id="detail-price">₹0</div>
+      </div>
+      <button class="contact-agent-btn" onclick="openContactModal()">Contact Agent →</button>
+    </div>
+
+    <div class="section-label">Tour Highlights</div>
+    <div class="highlights-grid" id="detail-highlights"></div>
+
+    <div class="section-label">Places You'll Visit</div>
+    <div class="place-photos-section">
+      <div class="place-photos-scroll" id="place-photos-scroll"></div>
+    </div>
+
+    <div class="section-label">Day-by-Day Itinerary</div>
+    <div class="itin-list" id="detail-itin"></div>
+
+    <div class="section-label">About the Agency</div>
+    <div class="agent-contact-card" id="detail-agent-card">
+      <div class="agent-contact-row">
+        <div class="agent-avatar av-green" id="detail-agent-av" style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;"></div>
+        <div class="agent-contact-info">
+          <h4 id="detail-agent-name"></h4>
+          <p id="detail-agent-tagline"></p>
+        </div>
+      </div>
+      <button class="contact-agent-btn" style="width:100%;" onclick="openContactModal()">📞 Contact This Agency</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: AGENT PROFILE ═══════════ -->
+<div id="page-agent" class="page">
+  <div class="profile-hero">
+    <button class="profile-back-btn" onclick="goHome()">← Back</button>
+    <div class="profile-avatar-lg" id="prof-avatar"></div>
+    <div class="profile-name" id="prof-name"></div>
+    <div class="profile-sub" id="prof-sub"></div>
+    <div class="verified-badge" style="background:rgba(157,225,203,0.2);color:var(--green-mid);margin-bottom:1.5rem;display:inline-block;">✓ Verified Agency</div>
+    <div class="profile-stats">
+      <div class="ps"><div class="ps-n" id="prof-tours">0</div><div class="ps-l">Tours</div></div>
+      <div class="ps"><div class="ps-n" id="prof-rating">0</div><div class="ps-l">Rating</div></div>
+      <div class="ps"><div class="ps-n" id="prof-since">0</div><div class="ps-l">Since</div></div>
+    </div>
+  </div>
+  <div class="profile-body">
+    <div class="profile-card">
+      <h3>Agency Information</h3>
+      <div class="info-row"><span class="info-label">Agency Name</span><span class="info-value" id="prof-agency-name"></span></div>
+      <div class="info-row"><span class="info-label">Owner</span><span class="info-value" id="prof-owner"></span></div>
+      <div class="info-row"><span class="info-label">Location</span><span class="info-value" id="prof-location"></span></div>
+      <div class="info-row"><span class="info-label">Specialization</span><span class="info-value" id="prof-spec"></span></div>
+      <div class="info-row"><span class="info-label">Languages</span><span class="info-value" id="prof-lang"></span></div>
+    </div>
+    <div class="profile-card">
+      <h3>Contact Details</h3>
+      <div class="info-row"><span class="info-label">📞 Phone</span><span class="info-value" id="prof-phone"></span></div>
+      <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value" id="prof-email"></span></div>
+      <div class="info-row"><span class="info-label">💬 WhatsApp</span><span class="info-value" id="prof-whatsapp"></span></div>
+      <div class="info-row"><span class="info-label">🌐 Website</span><span class="info-value" id="prof-website"></span></div>
+    </div>
+    <div class="profile-card">
+      <h3>Tours by This Agency</h3>
+      <div id="prof-tours-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: USER PROFILE ═══════════ -->
+<div id="page-user-profile" class="page">
+  <div class="user-profile-page">
+    <div class="user-profile-hero">
+      <button class="user-profile-back" onclick="goHome()">← Back to Home</button>
+      <div class="user-profile-av" id="up-avatar">R</div>
+      <div class="user-profile-name" id="up-name">Rahul Sharma</div>
+      <div class="user-profile-email" id="up-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d0a2b1b8a5bc90b5a8b1bda0bcb5feb3bfbd">[email&#160;protected]</a></div>
+      <div class="user-member-badge">✓ YatraVerse Member</div>
+    </div>
+
+    <div class="user-profile-body">
+
+      <!-- Personal Info -->
+      <div class="user-card">
+        <div class="user-card-header">
+          <h3>Personal Information</h3>
+          <button class="pe-edit-btn" id="edit-toggle-btn" onclick="toggleProfileEdit()">Edit</button>
+        </div>
+        <div class="user-card-body" id="profile-info-view">
+          <div class="profile-edit-row">
+            <span class="pe-label">Full Name</span>
+            <span class="pe-value" id="up-fullname">—</span>
+          </div>
+          <div class="profile-edit-row">
+            <span class="pe-label">Email</span>
+            <span class="pe-value" id="up-email-val">—</span>
+          </div>
+          <div class="profile-edit-row">
+            <span class="pe-label">Phone</span>
+            <span class="pe-value" id="up-phone-val">—</span>
+          </div>
+          <div class="profile-edit-row">
+            <span class="pe-label">City</span>
+            <span class="pe-value" id="up-city-val">—</span>
+          </div>
+          <div class="profile-edit-row">
+            <span class="pe-label">Interests</span>
+            <span class="pe-value" id="up-interest-val">—</span>
+          </div>
+          <div class="profile-edit-row">
+            <span class="pe-label">Joined</span>
+            <span class="pe-value" id="up-joined-val">—</span>
+          </div>
+        </div>
+
+        <!-- Edit Form (hidden by default) -->
+        <div class="user-card-body" id="profile-edit-view" style="display:none;">
+          <div class="form-row" style="margin-bottom:10px;">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input class="form-input" id="edit-fname" placeholder="First Name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input class="form-input" id="edit-lname" placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" type="tel" id="edit-phone" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label class="form-label">City</label>
+            <input class="form-input" id="edit-city" placeholder="Jaipur">
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Interested In</label>
+            <select class="form-select" id="edit-interest">
+              <option value="">Select preference</option>
+              <option>Beach Tours</option>
+              <option>Hill Stations</option>
+              <option>Heritage & Culture</option>
+              <option>Adventure</option>
+              <option>Nature & Wildlife</option>
+              <option>All Types</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="form-submit" style="flex:1;" onclick="saveProfileEdit()">Save Changes</button>
+            <button class="form-submit" style="flex:0.4;background:var(--gray-100);color:var(--text);" onclick="toggleProfileEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search History -->
+      <div class="user-card">
+        <div class="user-card-header">
+          <h3>Search History</h3>
+          <button class="pe-edit-btn" style="color:var(--coral);" onclick="clearSearchHistory()">Clear All</button>
+        </div>
+        <div class="user-card-body" id="up-search-history">
+          <div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:13px;">No searches yet. Start exploring!</div>
+        </div>
+      </div>
+
+      <!-- Account Actions -->
+      <div class="user-card">
+        <div class="user-card-header"><h3>Account</h3></div>
+        <div class="user-card-body">
+          <button class="logout-full-btn" onclick="userLogout()">🚪 Logout from YatraVerse</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: AGENCY LOGIN ═══════════ -->
+<div id="page-login" class="page">
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="logo">Yatra<span>Verse</span></span>
+        <p>Agency Portal — Manage your tours</p>
+      </div>
+      <div class="login-tabs">
+        <div class="login-tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+        <div class="login-tab" id="tab-register" onclick="switchTab('register')">Register</div>
+      </div>
+
+      <!-- Login Form -->
+      <div id="form-login">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="login-email" placeholder="agency@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="login-pass" placeholder="••••••••">
+        </div>
+        <button class="form-submit" onclick="doLogin()">Sign In to Dashboard</button>
+        <div class="form-divider">Demo: use any agency email below</div>
+        <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:0.75rem 1rem;font-size:12px;color:var(--green-dark);">
+          <strong>Demo Accounts:</strong><br>
+          <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b796a614b7d64726a6c6e7825686466">[email&#160;protected]</a> / pass123<br>
+          <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="660f08000926021403070b12140710030a154805090b">[email&#160;protected]</a> / pass123<br>
+          <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="afc7cac3c3c0efc7c0c3c6cbced6cad7dfcadddbdc81ccc0c2">[email&#160;protected]</a> / pass123
+        </div>
+      </div>
+
+      <!-- Register Form -->
+      <div id="form-register" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Agency Name</label>
+            <input class="form-input" type="text" id="reg-agency" placeholder="My Travel Agency">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Owner Name</label>
+            <input class="form-input" type="text" id="reg-owner" placeholder="Your Name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="agency@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" id="reg-phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City</label>
+            <input class="form-input" type="text" id="reg-city" placeholder="Jaipur">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Specialization</label>
+            <select class="form-select" id="reg-spec">
+              <option>Beach Tours</option>
+              <option>Hill Stations</option>
+              <option>Heritage Tours</option>
+              <option>Adventure</option>
+              <option>All Types</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="reg-pass" placeholder="Create password">
+        </div>
+        <button class="form-submit" onclick="doRegister()">Create Agency Account</button>
+      </div>
+
+      <div style="text-align:center;margin-top:1.25rem;">
+        <span style="font-size:13px;color:var(--text-muted);cursor:pointer;" onclick="goHome()">← Back to Browse Tours</span>
+      </div>
+
+      <!-- User Registration Section -->
+      <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1.5px dashed var(--border);">
+        <div style="text-align:center;margin-bottom:1rem;">
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.5px;color:var(--text-muted);text-transform:uppercase;">Not a Travel Agency?</span>
+        </div>
+        <div style="background:var(--green-light);border-radius:var(--radius);padding:1.1rem 1.25rem;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:2rem;flex-shrink:0;">🧳</div>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:600;color:var(--green-dark);margin-bottom:2px;">Are you a Traveler?</div>
+            <div style="font-size:11px;color:var(--text-muted);line-height:1.4;">Register as a user to save tours, track searches & get price alerts</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <button onclick="openUserRegFromAgencyPage()" 
+            style="flex:1;padding:11px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;"
+            onmouseover="this.style.background='var(--green-dark)'" 
+            onmouseout="this.style.background='var(--green)'">
+            ✨ Register as User
+          </button>
+          <button onclick="openUserLoginFromAgencyPage()"
+            style="flex:1;padding:11px;background:white;color:var(--green);border:1.5px solid var(--green);border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;"
+            onmouseover="this.style.background='var(--green-light)'" 
+            onmouseout="this.style.background='white'">
+            🔐 User Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: DASHBOARD ═══════════ -->
+<div id="page-dashboard" class="page">
+  <div class="dashboard-nav">
+    <div class="logo">Yatra<span>Verse</span></div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="agent-pill">
+        <div class="agent-pill-av" id="dash-av">RV</div>
+        <span class="agent-pill-name" id="dash-name">Agency</span>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <div class="dash-welcome">
+      <h2 id="dash-welcome-msg">Welcome back!</h2>
+      <p>Manage your tours and agency profile from here.</p>
+    </div>
+
+    <div class="dash-stats">
+      <div class="ds-card"><div class="ds-num" id="ds-tours">0</div><div class="ds-lbl">Tours Listed</div></div>
+      <div class="ds-card"><div class="ds-num" id="ds-views">0</div><div class="ds-lbl">Profile Views</div></div>
+      <div class="ds-card"><div class="ds-num" id="ds-rating">4.8★</div><div class="ds-lbl">Your Rating</div></div>
+      <div class="ds-card"><div class="ds-num" id="ds-since">2020</div><div class="ds-lbl">Member Since</div></div>
+    </div>
+
+    <div class="dash-grid">
+      <!-- Add Tour Panel -->
+      <div class="dash-panel">
+        <div class="panel-header">
+          <h3>Add New Tour</h3>
+        </div>
+        <div class="add-tour-form">
+          <div class="form-group">
+            <label class="form-label">Tour Name</label>
+            <input class="form-input" id="t-name" placeholder="e.g. Magical Goa 5 Days">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Destination</label>
+              <input class="form-input" id="t-dest" placeholder="e.g. Goa">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Duration</label>
+              <input class="form-input" id="t-duration" placeholder="e.g. 5 Days / 4 Nights">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Price (₹ per person)</label>
+              <input class="form-input" id="t-price" type="number" placeholder="8500">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select class="form-select" id="t-cat">
+                <option>Beach</option>
+                <option>Hill Station</option>
+                <option>Heritage</option>
+                <option>Adventure</option>
+                <option>Nature</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Group Size</label>
+            <input class="form-input" id="t-group" placeholder="e.g. 2–10 people">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tour Description</label>
+            <textarea class="form-textarea" id="t-desc" placeholder="Brief description of the tour..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Highlights (comma separated)</label>
+            <input class="form-input" id="t-highlights" placeholder="Hotel, Meals, Sightseeing, Transport">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Day-wise Itinerary (one per line)</label>
+            <textarea class="form-textarea" id="t-itin" placeholder="Day 1: Arrival and hotel check-in&#10;Day 2: City sightseeing tour&#10;Day 3: Beach activities"></textarea>
+          </div>
+
+          <!-- ── IMAGE UPLOAD SECTION ── -->
+          <div class="form-group">
+            <label class="form-label">Tour Photos <span style="color:var(--green);font-weight:600;">(Upload up to 10 images)</span></label>
+            <div class="img-upload-area" id="img-upload-area" onclick="document.getElementById('t-images').click()"
+                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+              <input type="file" id="t-images" multiple accept="image/*" onchange="handleImageSelect(event)">
+              <div class="img-upload-icon">🖼️</div>
+              <div class="img-upload-title">Click to upload or drag & drop photos here</div>
+              <div class="img-upload-sub">JPG, PNG, WEBP supported • Max 5MB each • First image = Cover photo</div>
+            </div>
+            <!-- Image preview grid -->
+            <div class="img-preview-grid" id="img-preview-grid"></div>
+            <div id="img-count-display" style="display:none;">
+              <span class="img-count-badge">
+                <span id="img-count-num">0</span> photos added
+                <span style="opacity:0.6;">• First image will be used as cover</span>
+              </span>
+            </div>
+          </div>
+
+          <button class="form-submit" onclick="addTour()">+ Publish Tour</button>
+        </div>
+      </div>
+
+      <!-- My Tours Panel -->
+      <div class="dash-panel">
+        <div class="panel-header">
+          <h3>My Tours</h3>
+          <button class="panel-action" onclick="goHome()">View on site →</button>
+        </div>
+        <div id="my-tours-list">
+          <div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:13px;">No tours added yet. Add your first tour!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONTACT MODAL ═══════════ -->
+<div class="modal-overlay" id="contact-modal">
+  <div class="modal-box">
+    <h3>Contact Agency</h3>
+    <p>Reach out to book this tour or ask questions</p>
+    <div class="modal-contact-item">
+      <span style="font-size:1.3rem;">📞</span>
+      <div><strong>Phone</strong><span id="modal-phone">—</span></div>
+    </div>
+    <div class="modal-contact-item">
+      <span style="font-size:1.3rem;">💬</span>
+      <div><strong>WhatsApp</strong><span id="modal-whatsapp">—</span></div>
+    </div>
+    <div class="modal-contact-item">
+      <span style="font-size:1.3rem;">📧</span>
+      <div><strong>Email</strong><span id="modal-email">—</span></div>
+    </div>
+    <button class="modal-close" onclick="closeContactModal()">Close</button>
+  </div>
+</div>
+
+<!-- ═══════════ REGISTRATION POPUP ═══════════ -->
+<div class="reg-overlay" id="reg-overlay">
+  <div class="reg-popup">
+    <div class="reg-popup-hero">
+      <!-- Cancel / Close button - clearly visible -->
+      <button class="reg-popup-close" onclick="closeRegPopup()" title="Close">✕</button>
+      <div class="reg-popup-hero-emoji">✈️</div>
+      <h2>Plan Smarter, Travel Better</h2>
+      <p>Join 10,000+ travelers discovering India's best tours</p>
+      <div class="reg-popup-perks">
+        <div class="reg-perk"><div class="reg-perk-icon">💰</div><div class="reg-perk-text">Price Alerts</div></div>
+        <div class="reg-perk"><div class="reg-perk-icon">❤️</div><div class="reg-perk-text">Save Wishlist</div></div>
+        <div class="reg-perk"><div class="reg-perk-icon">🔔</div><div class="reg-perk-text">New Tours</div></div>
+        <div class="reg-perk"><div class="reg-perk-icon">📋</div><div class="reg-perk-text">Search History</div></div>
+      </div>
+    </div>
+
+    <!-- Tabs: Register / Login -->
+    <div style="display:flex;border-bottom:1px solid var(--border);">
+      <div id="pop-tab-register" onclick="switchPopupTab('register')"
+        style="flex:1;text-align:center;padding:12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--green);border-bottom:2px solid var(--green);">
+        Create Account
+      </div>
+      <div id="pop-tab-login" onclick="switchPopupTab('login')"
+        style="flex:1;text-align:center;padding:12px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;">
+        Already Registered
+      </div>
+    </div>
+
+    <div class="reg-popup-body">
+
+      <!-- ── REGISTER VIEW ── -->
+      <div id="reg-form-view">
+        <div class="form-row" style="margin-bottom:10px;">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" id="pop-fname" placeholder="Rahul">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" id="pop-lname" placeholder="Sharma">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="pop-email" placeholder="rahul@example.com">
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" id="pop-phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">City</label>
+          <input class="form-input" id="pop-city" placeholder="Jaipur">
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Interested In</label>
+          <select class="form-select" id="pop-interest">
+            <option value="">Select preference</option>
+            <option>Beach Tours</option>
+            <option>Hill Stations</option>
+            <option>Heritage & Culture</option>
+            <option>Adventure</option>
+            <option>Nature & Wildlife</option>
+            <option>All Types</option>
+          </select>
+        </div>
+        <button class="form-submit" onclick="submitRegPopup()">Create Free Account →</button>
+        <button onclick="closeRegPopup()" style="width:100%;margin-top:8px;padding:10px;background:var(--gray-100);border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-muted);font-family:'DM Sans',sans-serif;">
+          Cancel — Continue Browsing
+        </button>
+      </div>
+
+      <!-- ── LOGIN VIEW ── -->
+      <div id="pop-login-view" style="display:none;">
+        <div style="text-align:center;margin-bottom:1.25rem;">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">👋</div>
+          <div style="font-size:14px;font-weight:600;color:var(--gray-900);">Welcome back!</div>
+          <div style="font-size:12px;color:var(--text-muted);">Login with your registered email</div>
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="pop-login-email" placeholder="rahul@example.com">
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Full Name (to verify)</label>
+          <input class="form-input" id="pop-login-name" placeholder="Rahul Sharma">
+        </div>
+        <button class="form-submit" onclick="submitPopupLogin()">Login →</button>
+        <button onclick="closeRegPopup()" style="width:100%;margin-top:8px;padding:10px;background:var(--gray-100);border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-muted);font-family:'DM Sans',sans-serif;">
+          Cancel — Continue Browsing
+        </button>
+      </div>
+
+      <!-- ── SUCCESS VIEW ── -->
+      <div id="reg-success-view" style="display:none;text-align:center;padding:1rem 0;">
+        <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:0.5rem;">Welcome aboard!</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.5rem;">Your account has been created. Start exploring amazing tours!</p>
+        <button class="form-submit" onclick="closeRegPopup()">Start Exploring →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FEATURE TOUR WALKTHROUGH ═══════════ -->
+<div class="tour-overlay-backdrop" id="tour-backdrop"></div>
+<div class="tour-spotlight" id="tour-spotlight"></div>
+
+<div class="tour-bubble" id="tour-bubble">
+  <div class="tb-step" id="tb-step">STEP 1 OF 7</div>
+  <div class="tb-title" id="tb-title">Search Destinations</div>
+  <div class="tb-desc" id="tb-desc">Type any destination or tour name to find perfect trips for you.</div>
+  <div class="tb-actions">
+    <button class="tb-skip" id="tb-skip" onclick="endFeatureTour()">Skip tour</button>
+    <div class="tb-dots" id="tb-dots"></div>
+    <button class="tb-next" id="tb-next-btn" onclick="nextTourStep()">Next →</button>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ══════════ API CONFIG ══════════
+const API = 'http://localhost:5000/api';
+
+// Helper — make API calls easily
+async function apiCall(endpoint, method = 'GET', body = null) {
+  const token = localStorage.getItem('yv_token');
+  const opts = {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  if (token) opts.headers['Authorization'] = `Bearer ${token}`;
+  if (body)  opts.body = JSON.stringify(body);
+  try {
+    const res  = await fetch(`${API}${endpoint}`, opts);
+    const data = await res.json();
+    return { ok: res.ok, status: res.status, data };
+  } catch (err) {
+    console.error('API Error:', err);
+    return { ok: false, data: { error: 'Server not reachable. Running in offline mode.' } };
+  }
+}
+
+// ══════════ DATA ══════════
+const agents = [
+  { id: 1, initials:'RV', avClass:'av-green', name:'Raj Voyages', owner:'Rajesh Sharma', location:'Jaipur, Rajasthan', spec:'Beach & Heritage Tours', lang:'Hindi, English', phone:'+91 98001 23456', email:'raj@voyages.com', whatsapp:'+91 98001 23456', website:'www.rajvoyages.in', rating:'4.9', since:'2018', tours:0, tagline:'Premium tours since 2018', pass:'pass123' },
+  { id: 2, initials:'DT', avClass:'av-amber', name:'Dream Travels', owner:'Deepa Nair', location:'Kochi, Kerala', spec:'Nature & Hill Station Tours', lang:'Hindi, English, Malayalam', phone:'+91 87654 32109', email:'info@dreamtravels.com', whatsapp:'+91 87654 32109', website:'www.dreamtravels.in', rating:'4.8', since:'2020', tours:0, tagline:'Explore nature with us', pass:'pass123' },
+  { id: 3, initials:'HE', avClass:'av-blue', name:'Holiday Experts', owner:'Harish Verma', location:'Delhi, NCR', spec:'Adventure & Hill Treks', lang:'Hindi, English, Punjabi', phone:'+91 76543 21098', email:'hello@holidayexperts.com', whatsapp:'+91 76543 21098', website:'www.holidayexperts.com', rating:'4.7', since:'2016', tours:0, tagline:'Adventure awaits you', pass:'pass123' },
+  { id: 4, initials:'ST', avClass:'av-coral', name:'Sunshine Tours', owner:'Sunita Patel', location:'Ahmedabad, Gujarat', spec:'Budget & Family Tours', lang:'Hindi, English, Gujarati', phone:'+91 65432 10987', email:'sun@shinetravel.com', whatsapp:'+91 65432 10987', website:'www.sunshinetours.in', rating:'4.6', since:'2019', tours:0, tagline:'Affordable family holidays', pass:'pass123' },
+];
+
+const toursData = [
+  { id:1, agentId:1, name:'Goa Beach Holiday', dest:'Goa', duration:'5 Days / 4 Nights', price:8500, cat:'Beach', group:'2–8 people', rating:'4.9', hot:true, emoji:'🏖️', imgClass:'img-goa',
+    heroPhoto:'goa+beach+india',
+    placePhotos:[
+      {name:'Baga Beach', q:'baga+beach+goa'},
+      {name:'Calangute Beach', q:'calangute+goa'},
+      {name:'Old Goa Church', q:'old+goa+church'},
+      {name:'Palolem Beach', q:'palolem+beach+goa'},
+      {name:'Anjuna Market', q:'anjuna+flea+market+goa'},
+      {name:'Mandovi River Cruise', q:'goa+river+sunset'},
+    ],
+    desc:'Experience the best of Goa — pristine beaches, vibrant nightlife, and Portuguese heritage on this perfectly crafted 5-day getaway.', highlights:['Hotel Accommodation','All Meals Included','Beach Activities','Sightseeing Tours','Airport Transfer'], itin:['Arrival & hotel check-in, visit Baga & Calangute beach, welcome dinner','Water sports at Baga — jet ski, parasailing, banana boat. Evening at Tito\'s Lane','South Goa exploration — Old Goa churches, Panjim market, Colva & Palolem beaches','Spice plantation tour, Mandovi river cruise, cultural dance show','Breakfast, shopping at Anjuna flea market, airport drop-off'] },
+
+  { id:2, agentId:3, name:'Manali Snow Adventure', dest:'Manali', duration:'7 Days / 6 Nights', price:12000, cat:'Hill Station', group:'4–12 people', rating:'4.7', hot:false, emoji:'🏔️', imgClass:'img-manali',
+    heroPhoto:'manali+himachal+mountains',
+    placePhotos:[
+      {name:'Solang Valley', q:'solang+valley+manali'},
+      {name:'Rohtang Pass', q:'rohtang+pass+snow'},
+      {name:'Hadimba Temple', q:'hadimba+temple+manali'},
+      {name:'Beas River', q:'beas+river+manali'},
+      {name:'Kullu Valley', q:'kullu+valley+himachal'},
+      {name:'Snow Activities', q:'manali+snow+adventure'},
+    ],
+    desc:'A thrilling Himalayan adventure featuring snow-capped peaks, rohtang pass, river rafting and cozy bonfire nights in the mountains.', highlights:['Hotel + Camps','Breakfast & Dinner','Rohtang Pass Visit','River Rafting','Bonfire Evenings'], itin:['Delhi to Manali drive, check-in, rest & orientation','Solang Valley — snow activities, zip-line, cable car','Rohtang Pass day trip (permit required)','Hadimba Temple, Manu Temple, Old Manali market','River rafting on Beas, paragliding option','Kullu valley tour, shawl factory visit','Return journey to Delhi'] },
+
+  { id:3, agentId:1, name:'Rajasthan Heritage Trail', dest:'Rajasthan', duration:'6 Days / 5 Nights', price:9200, cat:'Heritage', group:'2–10 people', rating:'4.8', hot:false, emoji:'🏰', imgClass:'img-rajasthan',
+    heroPhoto:'rajasthan+fort+palace+india',
+    placePhotos:[
+      {name:'Amber Fort, Jaipur', q:'amber+fort+jaipur'},
+      {name:'Hawa Mahal', q:'hawa+mahal+jaipur'},
+      {name:'Mehrangarh Fort', q:'mehrangarh+fort+jodhpur'},
+      {name:'Lake Pichola, Udaipur', q:'lake+pichola+udaipur'},
+      {name:'Jaisalmer Desert', q:'jaisalmer+desert+rajasthan'},
+      {name:'City Palace', q:'city+palace+udaipur'},
+    ],
+    desc:'Journey through the royal state of Rajasthan — explore magnificent forts, ornate palaces and vibrant bazaars across Jaipur, Jodhpur and Udaipur.', highlights:['Heritage Hotel Stay','All Meals','Fort & Palace Visits','Desert Safari','Cultural Show'], itin:['Arrive Jaipur — Amber Fort, City Palace, Hawa Mahal','Jal Mahal, Jantar Mantar, local bazaar shopping','Drive to Jodhpur — Mehrangarh Fort, Jaswant Thada','Umaid Bhawan Palace, blue city walk, local markets','Drive to Udaipur — Lake Pichola, City Palace, Saheliyon ki Bari','Fateh Sagar Lake, Jagdish Temple, departure'] },
+
+  { id:4, agentId:2, name:'Kerala Backwater Bliss', dest:'Kerala', duration:'5 Days / 4 Nights', price:10500, cat:'Nature', group:'2–6 people', rating:'4.9', hot:true, emoji:'🛶', imgClass:'img-kerala',
+    heroPhoto:'kerala+backwaters+houseboat',
+    placePhotos:[
+      {name:'Kerala Backwaters', q:'alleppey+backwaters+kerala'},
+      {name:'Fort Kochi', q:'fort+kochi+kerala'},
+      {name:'Munnar Tea Gardens', q:'munnar+tea+garden+kerala'},
+      {name:'Periyar Wildlife', q:'periyar+wildlife+elephant+kerala'},
+      {name:'Kathakali Show', q:'kathakali+dance+kerala'},
+      {name:'Spice Plantation', q:'spice+plantation+kerala'},
+    ],
+    desc:'Drift through emerald backwaters on a traditional houseboat, explore spice plantations, and witness the lush beauty of God\'s Own Country.', highlights:['Houseboat Stay','All Meals on Boat','Spice Plantation Tour','Elephant Sanctuary','Kathakali Show'], itin:['Arrive Kochi — Fort Kochi walk, Chinese fishing nets, Kathakali show','Drive to Munnar — tea gardens, Echo Point, Eravikulam National Park','Periyar Wildlife Sanctuary, spice plantation, elephant viewing','Drive to Alleppey — houseboat check-in, backwater cruise','Sunrise on backwaters, local village visit, Kochi departure'] },
+
+  { id:5, agentId:3, name:'Kashmir Valley Dream', dest:'Kashmir', duration:'6 Days / 5 Nights', price:15000, cat:'Hill Station', group:'2–8 people', rating:'4.8', hot:true, emoji:'🌸', imgClass:'img-kashmir',
+    heroPhoto:'kashmir+dal+lake+india',
+    placePhotos:[
+      {name:'Dal Lake, Srinagar', q:'dal+lake+srinagar+kashmir'},
+      {name:'Gulmarg Meadows', q:'gulmarg+meadow+kashmir'},
+      {name:'Pahalgam Valley', q:'pahalgam+valley+kashmir'},
+      {name:'Mughal Gardens', q:'shalimar+bagh+kashmir'},
+      {name:'Sonamarg Glacier', q:'sonamarg+glacier+kashmir'},
+      {name:'Tulip Garden', q:'tulip+garden+srinagar'},
+    ],
+    desc:'Experience paradise on earth — tulip gardens, Dal Lake shikara rides, Gulmarg meadows and the legendary Mughal gardens of Kashmir.', highlights:['Houseboat + Hotel','All Meals','Shikara Ride','Gulmarg Cable Car','Pahalgam Valley'], itin:['Arrive Srinagar — houseboat check-in, Dal Lake shikara ride','Mughal Gardens — Nishat, Shalimar, Chashme Shahi','Drive to Gulmarg — cable car to Apharwat peak, snow activities','Drive to Pahalgam — Betab Valley, Aru Valley, Baisaran meadow','Sonamarg day trip — glacier walk, Thajiwas glaciers','Local market shopping, handicrafts, departure from Srinagar'] },
+
+  { id:6, agentId:4, name:'Andaman Island Escape', dest:'Andaman Islands', duration:'6 Days / 5 Nights', price:18000, cat:'Beach', group:'2–8 people', rating:'4.7', hot:false, emoji:'🏝️', imgClass:'img-andaman',
+    heroPhoto:'andaman+island+beach+india',
+    placePhotos:[
+      {name:'Radhanagar Beach', q:'radhanagar+beach+havelock'},
+      {name:'Cellular Jail', q:'cellular+jail+andaman'},
+      {name:'Neil Island', q:'neil+island+andaman'},
+      {name:'Coral Reef Diving', q:'andaman+scuba+diving+coral'},
+      {name:'Elephant Beach', q:'elephant+beach+andaman'},
+      {name:'Ross Island', q:'ross+island+andaman'},
+    ],
+    desc:'Explore the pristine coral reefs, crystal-clear waters and white-sand beaches of the Andaman Islands — India\'s best-kept secret paradise.', highlights:['Beach Resort Stay','Daily Breakfast','Scuba Diving','Glass Bottom Boat','Cellular Jail Tour'], itin:['Arrive Port Blair — Cellular Jail light & sound show, local market','Ross Island, North Bay Island — coral viewing, snorkeling','Ferry to Havelock Island — Radhanagar Beach (Asia\'s Best Beach)','Scuba diving or snorkeling at Elephant Beach','Neil Island day trip — Natural Bridge, Bharatpur beach','Return to Port Blair, shopping, departure'] },
+];
+
+let currentFilter = 'All';
+let currentAgent = null;
+let currentTour = null;
+let loggedInAgent = null;
+
+// ══════════ SEARCH ══════════
+let srQuery = '';
+let srFilter = 'All';
+
+function goToSearch(query, filter) {
+  srQuery = query !== undefined ? query : document.getElementById('search-input').value.trim();
+  srFilter = filter || document.getElementById('search-cat').value || 'All';
+  if (srQuery) saveSearchToHistory(srQuery);
+  document.getElementById('sr-input').value = srQuery;
+  // reset filter chips
+  document.querySelectorAll('#page-search .filter-chip').forEach(c => c.classList.remove('active'));
+  const chips = document.querySelectorAll('#page-search .filter-chip');
+  chips.forEach(c => { if(c.textContent.trim().replace(/[^\w ]/g,'').trim() === srFilter || (srFilter==='All' && c.textContent.includes('All'))) c.classList.add('active'); });
+  renderSearchResults();
+  showPage('page-search');
+}
+
+function doSearch() {
+  srQuery = document.getElementById('sr-input').value.trim();
+  renderSearchResults();
+}
+
+function srSetFilter(f, el) {
+  srFilter = f;
+  document.querySelectorAll('#page-search .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderSearchResults();
+}
+
+function renderSearchResults() {
+  const sort = document.getElementById('sr-sort').value;
+  const q = srQuery.toLowerCase();
+
+  let results = toursData.filter(t => {
+    const matchQ = !q || t.name.toLowerCase().includes(q) || t.dest.toLowerCase().includes(q) || t.cat.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q);
+    const matchF = srFilter === 'All' || t.cat === srFilter;
+    return matchQ && matchF;
+  });
+
+  // Sort
+  if (sort === 'price-low') results.sort((a,b) => a.price - b.price);
+  else if (sort === 'price-high') results.sort((a,b) => b.price - a.price);
+  else if (sort === 'rating') results.sort((a,b) => parseFloat(b.rating) - parseFloat(a.rating));
+
+  // Update hero text
+  const titleEl = document.getElementById('sr-main-title');
+  const subtitleEl = document.getElementById('sr-main-subtitle');
+  const breadcrumb = document.getElementById('sr-breadcrumb-text');
+
+  if (q) {
+    titleEl.textContent = `Results for "${srQuery}"`;
+    breadcrumb.textContent = `Search: "${srQuery}"`;
+  } else if (srFilter !== 'All') {
+    titleEl.textContent = `${srFilter} Tours`;
+    breadcrumb.textContent = srFilter;
+  } else {
+    titleEl.textContent = 'All Tours';
+    breadcrumb.textContent = 'All Tours';
+  }
+  subtitleEl.textContent = results.length > 0 ? `Found ${results.length} tour${results.length>1?'s':''} matching your search` : 'No tours found';
+
+  // Count
+  document.getElementById('sr-results-count').innerHTML = results.length > 0
+    ? `Showing <strong>${results.length}</strong> tour${results.length>1?'s':''} ${q ? `for "<strong>${srQuery}</strong>"` : ''} ${srFilter !== 'All' ? `in <strong>${srFilter}</strong>` : ''}`
+    : '';
+
+  const grid = document.getElementById('sr-grid');
+
+  if (!results.length) {
+    grid.innerHTML = `
+      <div class="sr-no-results" style="grid-column:1/-1;">
+        <div class="nr-icon">🔍</div>
+        <h3>No tours found for "${srQuery}"</h3>
+        <p>Try searching with different keywords or browse all tours</p>
+        <button onclick="srQuery=''; srFilter='All'; renderSearchResults()">Browse All Tours</button>
+      </div>`;
+    document.getElementById('sr-also-section').style.display = 'none';
+    return;
+  }
+
+  grid.innerHTML = results.map(t => tourCardHTML(t)).join('');
+
+  // "Also like" — tours NOT in results, from same categories
+  const resultIds = new Set(results.map(t=>t.id));
+  const cats = [...new Set(results.map(t=>t.cat))];
+  let also = toursData.filter(t => !resultIds.has(t.id) && cats.includes(t.cat)).slice(0,3);
+  if (!also.length) also = toursData.filter(t => !resultIds.has(t.id)).slice(0,3);
+
+  const alsoSection = document.getElementById('sr-also-section');
+  const alsoGrid = document.getElementById('sr-also-grid');
+  if (also.length) {
+    alsoSection.style.display = 'block';
+    alsoGrid.innerHTML = also.map(t => tourCardHTML(t)).join('');
+  } else {
+    alsoSection.style.display = 'none';
+  }
+}
+
+// ══════════ PHOTO HELPERS ══════════
+function unsplashUrl(query, w, h, seed) {
+  return `https://source.unsplash.com/${w}x${h}/?${query}&sig=${seed||Math.random()}`;
+}
+
+function tourCardHTML(t) {
+  // Use uploaded hero image if agency uploaded one, else fallback to Unsplash
+  const photoUrl = t.uploadedHeroUrl || unsplashUrl(t.heroPhoto || t.dest, 400, 250, t.id);
+  const imgSrc   = t.uploadedHeroUrl
+    ? `src="${photoUrl}"`
+    : `src="${photoUrl}" onerror="this.style.display='none'"`;
+
+  // Photo count badge for agency-uploaded tours
+  const photoBadge = (t.uploadedImageCount > 0)
+    ? `<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);color:white;font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;">📷 ${t.uploadedImageCount}</div>`
+    : '';
+
+  return `
+    <div class="tour-card" onclick="showTourDetail(${t.id})">
+      <div class="card-img">
+        <div class="card-emoji-fallback">${t.emoji}</div>
+        <img class="card-real-photo" ${imgSrc} alt="${t.name}" loading="lazy">
+        <div class="card-badge" style="position:absolute;top:12px;left:12px;">${t.duration}</div>
+        ${t.hot ? '<div class="card-hot" style="position:absolute;top:12px;right:12px;">🔥 Hot</div>' : ''}
+        ${photoBadge}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${t.name}</div>
+        <div class="card-meta">
+          <span>📍 ${t.dest}</span>
+          <span>👥 ${t.group}</span>
+          <span>⭐ ${t.rating}</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">₹${t.price.toLocaleString()} <small>/ person</small></div>
+          <button class="card-btn">View Details</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+
+// ══════════ RENDER TOURS ══════════
+function renderTours(data) {
+  const grid = document.getElementById('tours-grid');
+  if (!data.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">No tours found.</div>'; return; }
+  grid.innerHTML = data.map(t => tourCardHTML(t)).join('');
+  document.getElementById('tour-count').textContent = toursData.length;
+}
+
+function renderAgents() {
+  const grid = document.getElementById('agents-grid');
+  grid.innerHTML = agents.map(a => `
+    <div class="agent-card" onclick="showAgentProfile(${a.id})">
+      <div class="agent-avatar ${a.avClass}">${a.initials}</div>
+      <div class="agent-info">
+        <div class="agent-name">${a.name}</div>
+        <div class="agent-sub">${a.tours || toursData.filter(t=>t.agentId===a.id).length} tours · ${a.rating}★ · Since ${a.since}</div>
+        <div class="verified-badge">✓ Verified</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════ FILTER (home page chips - now go to search) ══════════
+function setFilter(f) { goToSearch('', f); }
+function filterTours() { goToSearch(document.getElementById('search-input').value.trim(), document.getElementById('search-cat').value || 'All'); }
+
+// ══════════ TOUR DETAIL ══════════
+function showTourDetail(id) {
+  detailFromPage = document.querySelector('.page.active')?.id || 'page-home';
+  currentTour = toursData.find(t => t.id === id);
+  const agent = agents.find(a => a.id === currentTour.agentId);
+  currentAgent = agent;
+
+  // ── Hero photo — uploaded takes priority over Unsplash ──
+  const heroImg     = document.getElementById('detail-hero-photo');
+  const heroLoading = document.getElementById('detail-hero-loading');
+  heroLoading.textContent = currentTour.emoji;
+  heroLoading.style.display = 'flex';
+  heroImg.style.display = 'none';
+
+  if (currentTour.uploadedHeroUrl) {
+    // Use agency-uploaded hero image directly
+    heroImg.src = currentTour.uploadedHeroUrl;
+  } else {
+    heroImg.src = unsplashUrl(currentTour.heroPhoto || currentTour.dest, 1200, 400, id * 7);
+  }
+  heroImg.alt = currentTour.name;
+
+  document.getElementById('detail-title').textContent = currentTour.name;
+  document.getElementById('detail-price').textContent = `₹${currentTour.price.toLocaleString()}`;
+
+  document.getElementById('detail-tags').innerHTML = [
+    `📍 ${currentTour.dest}`, `📅 ${currentTour.duration}`,
+    `👥 ${currentTour.group}`, `🏷️ ${currentTour.cat}`, `⭐ ${currentTour.rating}`
+  ].map(t => `<span class="dtag">${t}</span>`).join('');
+
+  document.getElementById('detail-highlights').innerHTML = currentTour.highlights.map(h =>
+    `<div class="highlight-item"><div class="hi-dot"></div>${h}</div>`
+  ).join('');
+
+  // ── Place photos gallery ──
+  const scroll = document.getElementById('place-photos-scroll');
+
+  if (currentTour.placePhotos && currentTour.placePhotos.length) {
+    // Check if photos are uploaded (have dataUrl) or Unsplash (have q)
+    scroll.innerHTML = currentTour.placePhotos.map((p, i) => {
+      if (p.isUploaded && p.dataUrl) {
+        // Agency-uploaded photo
+        return `
+          <div class="place-photo-card" onclick="openLightbox('${p.dataUrl}','${p.name}')">
+            <img src="${p.dataUrl}" alt="${p.name}" loading="lazy">
+            <div class="place-photo-label">${p.name}</div>
+          </div>`;
+      } else {
+        // Unsplash photo
+        const pUrl = unsplashUrl(p.q, 320, 200, id * 100 + i);
+        return `
+          <div class="place-photo-card" onclick="openLightbox('${pUrl}','${p.name}')">
+            <img src="${pUrl}" alt="${p.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
+            <div class="place-photo-label">${p.name}</div>
+          </div>`;
+      }
+    }).join('');
+  } else {
+    scroll.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:0.5rem 0;">No place photos available.</div>';
+  }
+
+  // Itinerary
+  document.getElementById('detail-itin').innerHTML = currentTour.itin.map((d,i) =>
+    `<div class="itin-item"><div class="itin-dot">${i+1}</div><div class="itin-content"><div class="itin-day-title">Day ${i+1}</div><div class="itin-day-desc">${d}</div></div></div>`
+  ).join('');
+
+  document.getElementById('detail-agent-av').textContent = agent.initials;
+  document.getElementById('detail-agent-av').className = `agent-avatar ${agent.avClass}`;
+  document.getElementById('detail-agent-name').textContent = agent.name;
+  document.getElementById('detail-agent-tagline').textContent = agent.tagline;
+
+  showPage('page-detail');
+}
+
+// ══════════ AGENT PROFILE ══════════
+function showAgentProfile(id) {
+  const a = agents.find(ag => ag.id === id);
+  currentAgent = a;
+  const agentTours = toursData.filter(t => t.agentId === id);
+
+  document.getElementById('prof-avatar').textContent = a.initials;
+  document.getElementById('prof-name').textContent = a.name;
+  document.getElementById('prof-sub').textContent = a.tagline;
+  document.getElementById('prof-tours').textContent = agentTours.length;
+  document.getElementById('prof-rating').textContent = a.rating + '★';
+  document.getElementById('prof-since').textContent = a.since;
+  document.getElementById('prof-agency-name').textContent = a.name;
+  document.getElementById('prof-owner').textContent = a.owner;
+  document.getElementById('prof-location').textContent = a.location;
+  document.getElementById('prof-spec').textContent = a.spec;
+  document.getElementById('prof-lang').textContent = a.lang;
+  document.getElementById('prof-phone').textContent = a.phone;
+  document.getElementById('prof-email').textContent = a.email;
+  document.getElementById('prof-whatsapp').textContent = a.whatsapp;
+  document.getElementById('prof-website').textContent = a.website;
+
+  document.getElementById('prof-tours-list').innerHTML = agentTours.length
+    ? agentTours.map(t => `
+        <div class="my-tour-item" onclick="showTourDetail(${t.id})" style="cursor:pointer;">
+          <div class="my-tour-icon img-${t.dest.toLowerCase().replace(' ','-')} ${t.imgClass}" style="border-radius:8px;">${t.emoji}</div>
+          <div class="my-tour-info">
+            <div class="my-tour-name">${t.name}</div>
+            <div class="my-tour-meta">${t.duration} · ${t.cat}</div>
+          </div>
+          <div class="my-tour-price">₹${t.price.toLocaleString()}</div>
+        </div>
+      `).join('')
+    : '<div style="padding:1.5rem;text-align:center;color:var(--text-muted);font-size:13px;">No tours listed yet.</div>';
+
+  showPage('page-agent');
+}
+
+// ══════════ CONTACT MODAL ══════════
+function openContactModal() {
+  const a = currentAgent;
+  document.getElementById('modal-phone').textContent = a.phone;
+  document.getElementById('modal-whatsapp').textContent = a.whatsapp;
+  document.getElementById('modal-email').textContent = a.email;
+  document.getElementById('contact-modal').classList.add('open');
+}
+function closeContactModal() {
+  document.getElementById('contact-modal').classList.remove('open');
+}
+
+// ══════════ LOGIN / REGISTER ══════════
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+  document.getElementById('form-login').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab==='register' ? 'block' : 'none';
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  if (!email || !pass) { showToast('❌ Enter email and password'); return; }
+
+  // ── Local demo accounts fallback (always works) ──
+  const agent = agents.find(a => a.email === email && a.pass === pass);
+
+  // ── Try backend ──
+  try {
+    const res = await apiCall('/auth/agency/login', 'POST', { email, password: pass });
+    if (res.ok) {
+      const a = res.data.agency;
+      loggedInAgent = {
+        id: a.id, name: a.agency_name, owner: a.owner_name,
+        email: a.email, phone: a.phone,
+        initials: a.agency_name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),
+        avClass: 'av-green', rating: a.rating,
+        since: new Date().getFullYear(), tagline: a.agency_name
+      };
+      localStorage.setItem('yv_agency_token', res.data.token || '');
+      loadDashboard(loggedInAgent);
+      showPage('page-dashboard');
+      return;
+    }
+  } catch(e) { /* backend offline */ }
+
+  // ── Fallback to local demo data ──
+  if (!agent) { showToast('❌ Invalid credentials. Try demo accounts.'); return; }
+  loggedInAgent = agent;
+  loadDashboard(agent);
+  showPage('page-dashboard');
+}
+
+async function doRegister() {
+  const name  = document.getElementById('reg-agency').value.trim();
+  const owner = document.getElementById('reg-owner').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const city  = document.getElementById('reg-city').value.trim();
+  const spec  = document.getElementById('reg-spec').value;
+  const pass  = document.getElementById('reg-pass').value;
+  if (!name || !owner || !email || !phone || !pass) { showToast('❌ Please fill all fields.'); return; }
+
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+
+  // ── Create agent locally first (works offline) ──
+  const newAgent = {
+    id: agents.length + 1, initials, avClass: 'av-green',
+    name, owner, location: city, spec, lang: 'Hindi, English',
+    phone, email, whatsapp: phone, website: '—',
+    rating: 'New', since: new Date().getFullYear(),
+    tours: 0, tagline: `${spec} specialist`, pass
+  };
+  agents.push(newAgent);
+  loggedInAgent = newAgent;
+  loadDashboard(newAgent);
+  showPage('page-dashboard');
+  showToast('✅ Account created! Welcome to YatraVerse!');
+
+  // ── Try backend in background ──
+  try {
+    const res = await apiCall('/auth/agency/register', 'POST', {
+      agency_name: name, owner_name: owner,
+      email, phone, city, specialization: spec, password: pass
+    });
+    if (res.ok && res.data.token) {
+      localStorage.setItem('yv_agency_token', res.data.token);
+    }
+  } catch(e) { /* backend offline — local register worked */ }
+}
+
+function doLogout() {
+  loggedInAgent = null;
+  goHome();
+  showToast('👋 Logged out successfully');
+}
+
+// ══════════ DASHBOARD ══════════
+function loadDashboard(agent) {
+  const initials = agent.initials || agent.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('dash-av').textContent = initials;
+  document.getElementById('dash-name').textContent = agent.name;
+  document.getElementById('dash-welcome-msg').textContent = `Welcome back, ${agent.owner || agent.name}!`;
+  const myTours = toursData.filter(t => t.agentId === agent.id);
+  document.getElementById('ds-tours').textContent = myTours.length;
+  document.getElementById('ds-views').textContent = Math.floor(Math.random()*500+100);
+  document.getElementById('ds-rating').textContent = agent.rating + '★';
+  document.getElementById('ds-since').textContent = agent.since;
+  renderMyTours(agent);
+}
+
+function renderMyTours(agent) {
+  const list = document.getElementById('my-tours-list');
+  const myTours = toursData.filter(t => t.agentId === agent.id);
+  list.innerHTML = myTours.length
+    ? myTours.map(t => {
+        // Build thumbnail strip for uploaded photos
+        const thumbs = (t.placePhotos && t.placePhotos.filter(p => p.isUploaded && p.dataUrl)) || [];
+        const heroThumb = t.uploadedHeroUrl || null;
+        const allThumbs = heroThumb
+          ? [{ dataUrl: heroThumb, name: 'Cover' }, ...thumbs.filter(p => p.dataUrl !== heroThumb).slice(0,3)]
+          : thumbs.slice(0, 4);
+        const extraCount = (t.uploadedImageCount || 0) - allThumbs.length;
+
+        const thumbHtml = allThumbs.length > 0
+          ? `<div class="my-tour-imgs">
+              ${allThumbs.map(p => `<img class="my-tour-thumb" src="${p.dataUrl}" alt="${p.name}" title="${p.name}">`).join('')}
+              ${extraCount > 0 ? `<div class="my-tour-thumb-count">+${extraCount}</div>` : ''}
+             </div>`
+          : `<div class="my-tour-imgs">
+               <div class="my-tour-thumb-count" style="background:var(--green-light);color:var(--green-dark);">
+                 ${t.emoji}
+               </div>
+               <span style="font-size:10px;color:var(--text-muted);align-self:center;">No photos</span>
+             </div>`;
+
+        return `
+          <div class="my-tour-item">
+            <div class="my-tour-icon ${t.imgClass}" style="position:relative;overflow:visible;">
+              ${t.uploadedHeroUrl
+                ? `<img src="${t.uploadedHeroUrl}" style="width:42px;height:42px;border-radius:8px;object-fit:cover;display:block;">`
+                : t.emoji}
+            </div>
+            <div class="my-tour-info" style="flex:1;min-width:0;">
+              <div class="my-tour-name">${t.name}</div>
+              <div class="my-tour-meta">${t.duration} · ${t.cat} · ${t.group}</div>
+              ${thumbHtml}
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">
+              <div class="my-tour-price">₹${t.price.toLocaleString()}</div>
+              <div style="display:flex;gap:5px;">
+                <button class="del-btn" style="background:var(--blue-light,#e6f1fb);color:var(--blue,#378ADD);" onclick="showTourDetail(${t.id})">View</button>
+                <button class="del-btn" onclick="deleteTour(${t.id})">Remove</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('')
+    : '<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:13px;">No tours added yet!</div>';
+  document.getElementById('ds-tours').textContent = myTours.length;
+}
+
+// ══════════ IMAGE UPLOAD HANDLING ══════════
+let uploadedImages = []; // { file, dataUrl, name, isHero }
+const MAX_IMAGES = 10;
+const MAX_SIZE_MB = 5;
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('img-upload-area').classList.add('drag-over');
+}
+function handleDragLeave(e) {
+  document.getElementById('img-upload-area').classList.remove('drag-over');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('img-upload-area').classList.remove('drag-over');
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  processImageFiles(files);
+}
+function handleImageSelect(e) {
+  const files = Array.from(e.target.files);
+  processImageFiles(files);
+  e.target.value = ''; // reset so same file can be re-selected
+}
+
+function processImageFiles(files) {
+  const remaining = MAX_IMAGES - uploadedImages.length;
+  if (remaining <= 0) { showToast(`❌ Maximum ${MAX_IMAGES} photos allowed`); return; }
+  const toAdd = files.slice(0, remaining);
+  if (files.length > remaining) showToast(`⚠️ Only ${remaining} more photo(s) can be added`);
+
+  toAdd.forEach(file => {
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      showToast(`❌ "${file.name}" exceeds 5MB limit — skipped`);
+      return;
+    }
+    if (!file.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      uploadedImages.push({
+        file,
+        dataUrl: ev.target.result,
+        name: file.name,
+        isHero: uploadedImages.length === 0, // first image = hero
+      });
+      renderImagePreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderImagePreviews() {
+  const grid = document.getElementById('img-preview-grid');
+  const countDisplay = document.getElementById('img-count-display');
+  const countNum = document.getElementById('img-count-num');
+
+  if (!uploadedImages.length) {
+    grid.innerHTML = '';
+    countDisplay.style.display = 'none';
+    return;
+  }
+
+  countDisplay.style.display = 'block';
+  countNum.textContent = uploadedImages.length;
+
+  grid.innerHTML = uploadedImages.map((img, idx) => `
+    <div class="img-preview-item" title="${img.name}">
+      <img src="${img.dataUrl}" alt="${img.name}">
+      ${img.isHero ? '<div class="img-hero-badge">★ Cover</div>' : ''}
+      <button class="img-set-hero-btn" onclick="setHeroImage(${idx})" title="Set as cover photo">Set as Cover</button>
+      <div class="img-preview-label">${img.name}</div>
+      <button class="img-remove-btn" onclick="removeImage(${idx})" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeImage(idx) {
+  const wasHero = uploadedImages[idx].isHero;
+  uploadedImages.splice(idx, 1);
+  if (wasHero && uploadedImages.length > 0) {
+    uploadedImages[0].isHero = true; // auto-assign first as hero
+  }
+  renderImagePreviews();
+}
+
+function setHeroImage(idx) {
+  uploadedImages.forEach((img, i) => { img.isHero = (i === idx); });
+  renderImagePreviews();
+  showToast('✅ Cover photo updated!');
+}
+
+function clearImageUploads() {
+  uploadedImages = [];
+  renderImagePreviews();
+}
+
+async function addTour() {
+  if (!loggedInAgent) return;
+  const name      = document.getElementById('t-name').value.trim();
+  const dest      = document.getElementById('t-dest').value.trim();
+  const duration  = document.getElementById('t-duration').value.trim();
+  const price     = parseInt(document.getElementById('t-price').value);
+  const cat       = document.getElementById('t-cat').value;
+  const group     = document.getElementById('t-group').value.trim() || '2–10 people';
+  const desc      = document.getElementById('t-desc').value.trim();
+  const hlRaw     = document.getElementById('t-highlights').value.trim();
+  const itinRaw   = document.getElementById('t-itin').value.trim();
+
+  if (!name || !dest || !duration || !price) { showToast('❌ Fill Name, Destination, Duration and Price.'); return; }
+
+  const highlights = hlRaw ? hlRaw.split(',').map(s=>s.trim()).filter(Boolean) : ['Hotel','Sightseeing','Transport'];
+  const itinerary  = itinRaw ? itinRaw.split('\n').map(s=>s.replace(/^Day \d+[:.]?\s*/i,'').trim()).filter(Boolean) : [`Arrive ${dest}`, `Explore ${dest}`, 'Departure'];
+
+  const catEmojis = { Beach:'🏖️','Hill Station':'🏔️', Heritage:'🏰', Adventure:'🧗', Nature:'🌿' };
+  const catImgs   = { Beach:'img-andaman','Hill Station':'img-manali', Heritage:'img-rajasthan', Adventure:'img-manali', Nature:'img-kerala' };
+
+  // ── Build place photos from uploaded images ──
+  const heroImg = uploadedImages.find(i => i.isHero) || uploadedImages[0];
+  const placePhotosFromUpload = uploadedImages.map((img, idx) => ({
+    name: img.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+    dataUrl: img.dataUrl,
+    isUploaded: true,
+  }));
+
+  // ── Add locally first ──
+  const newTour = {
+    id: toursData.length + 1,
+    agentId: loggedInAgent.id,
+    name, dest, duration, price, cat,
+    group, rating: 'New', hot: false,
+    emoji: catEmojis[cat] || '✈️',
+    imgClass: catImgs[cat] || 'img-goa',
+    heroPhoto: dest.toLowerCase(),
+    // Use uploaded hero image as cover if available
+    uploadedHeroUrl: heroImg ? heroImg.dataUrl : null,
+    // Place photos — uploaded images take priority over Unsplash
+    placePhotos: placePhotosFromUpload.length > 0
+      ? placePhotosFromUpload
+      : [],
+    uploadedImageCount: uploadedImages.length,
+    desc: desc || `Explore ${dest}`,
+    highlights, itin: itinerary,
+  };
+
+  toursData.push(newTour);
+  renderMyTours(loggedInAgent);
+  renderTours(toursData);
+  renderAgents();
+  renderPriceChart();
+
+  // Clear form
+  ['t-name','t-dest','t-duration','t-price','t-group','t-desc','t-highlights','t-itin']
+    .forEach(id => { document.getElementById(id).value = ''; });
+  clearImageUploads();
+
+  const imgMsg = uploadedImages.length > 0 ? ` with ${uploadedImages.length} photos` : '';
+  showToast(`✅ Tour published successfully${imgMsg}!`);
+
+  // ── Try backend in background ──
+  try {
+    await apiCall('/tours/', 'POST', {
+      name, destination: dest, duration, price, category: cat,
+      group_size: group, description: desc,
+      highlights: highlights.join(','),
+      itinerary: itinerary.join('|')
+    });
+  } catch(e) { /* offline */ }
+}
+
+async function deleteTour(id) {
+  const idx = toursData.findIndex(t => t.id === id);
+  if (idx > -1) toursData.splice(idx, 1);
+  renderMyTours(loggedInAgent);
+  renderTours(toursData);
+  showToast('🗑️ Tour removed');
+  try { await apiCall(`/tours/${id}`, 'DELETE'); } catch(e) {}
+}
+
+// ══════════ NAVIGATION ══════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goHome() {
+  renderTours(toursData);
+  renderAgents();
+  showPage('page-home');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ══════════ USER NAV DROPDOWN ══════════
+function toggleUserDropdown() {
+  document.getElementById('user-dropdown').classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const pill = document.getElementById('user-nav-pill');
+  const dd = document.getElementById('user-dropdown');
+  if (pill && !pill.contains(e.target)) dd.classList.remove('open');
+});
+
+// ══════════ USER PROFILE ══════════
+function showUserProfile() {
+  const stored = localStorage.getItem('yv_user');
+  if (!stored) { openRegPopup(); return; }
+  const user = JSON.parse(stored);
+  const initials = ((user.fname||'?')[0] + (user.lname||'')[0]).toUpperCase() || '?';
+  const fullName = [user.fname, user.lname].filter(Boolean).join(' ');
+
+  document.getElementById('up-avatar').textContent = initials;
+  document.getElementById('up-name').textContent = fullName || 'Traveler';
+  document.getElementById('up-email').textContent = user.email || '';
+  document.getElementById('up-fullname').textContent = fullName || '—';
+  document.getElementById('up-email-val').textContent = user.email || '—';
+  document.getElementById('up-phone-val').textContent = user.phone || '—';
+  document.getElementById('up-city-val').textContent = user.city || '—';
+  document.getElementById('up-interest-val').textContent = user.interest || '—';
+  document.getElementById('up-joined-val').textContent = user.joinedAt
+    ? new Date(user.joinedAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' })
+    : '—';
+
+  // Search history
+  const histEl = document.getElementById('up-search-history');
+  if (user.searches && user.searches.length > 0) {
+    histEl.innerHTML = user.searches.map(s => `
+      <div class="search-hist-item" onclick="goToSearch('${s}')">
+        <span class="shi-icon">🔍</span>
+        <span class="shi-text">${s}</span>
+        <span class="shi-arrow">→</span>
+      </div>`).join('');
+  } else {
+    histEl.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:13px;">No searches yet. Start exploring!</div>';
+  }
+
+  // Pre-fill edit form
+  document.getElementById('edit-fname').value = user.fname || '';
+  document.getElementById('edit-lname').value = user.lname || '';
+  document.getElementById('edit-phone').value = user.phone || '';
+  document.getElementById('edit-city').value = user.city || '';
+  document.getElementById('edit-interest').value = user.interest || '';
+
+  showPage('page-user-profile');
+}
+
+function toggleProfileEdit() {
+  const view = document.getElementById('profile-info-view');
+  const edit = document.getElementById('profile-edit-view');
+  const btn = document.getElementById('edit-toggle-btn');
+  const isEditing = edit.style.display !== 'none';
+  view.style.display = isEditing ? 'block' : 'none';
+  edit.style.display = isEditing ? 'none' : 'block';
+  btn.textContent = isEditing ? 'Edit' : 'Cancel';
+}
+
+function saveProfileEdit() {
+  const stored = localStorage.getItem('yv_user');
+  if (!stored) return;
+  const user = JSON.parse(stored);
+  user.fname = document.getElementById('edit-fname').value.trim() || user.fname;
+  user.lname = document.getElementById('edit-lname').value.trim() || user.lname;
+  user.phone = document.getElementById('edit-phone').value.trim() || user.phone;
+  user.city = document.getElementById('edit-city').value.trim() || user.city;
+  user.interest = document.getElementById('edit-interest').value || user.interest;
+  localStorage.setItem('yv_user', JSON.stringify(user));
+  showToast('✅ Profile updated!');
+  toggleProfileEdit();
+  showUserProfile(); // refresh
+}
+
+function showUserSearchHistory() {
+  showUserProfile();
+}
+
+function clearSearchHistory() {
+  const stored = localStorage.getItem('yv_user');
+  if (!stored) return;
+  const user = JSON.parse(stored);
+  user.searches = [];
+  localStorage.setItem('yv_user', JSON.stringify(user));
+  document.getElementById('up-search-history').innerHTML =
+    '<div style="text-align:center;padding:1rem;color:var(--text-muted);font-size:13px;">Search history cleared.</div>';
+  document.getElementById('search-history-wrap').classList.remove('show');
+  showToast('🗑️ Search history cleared');
+}
+
+function userLogout() {
+  localStorage.removeItem('yv_user');
+  localStorage.removeItem('yv_token');
+  document.getElementById('user-nav-pill').classList.remove('show');
+  document.getElementById('nav-login-btn').style.display = '';
+  document.getElementById('welcome-back-bar').classList.remove('show');
+  document.getElementById('search-history-wrap').classList.remove('show');
+  document.getElementById('user-dropdown').classList.remove('open');
+  regPopupShown = false;
+  scrollSeconds = 0;
+  goHome();
+  showToast('👋 Logged out successfully!');
+  setTimeout(() => initRegPopupTimer(), 500);
+}
+
+function openUserRegFromAgencyPage() {
+  goHome();
+  setTimeout(() => {
+    regPopupShown = false;
+    openRegPopup();
+    switchPopupTab('register');
+  }, 100);
+}
+
+function openUserLoginFromAgencyPage() {
+  goHome();
+  setTimeout(() => {
+    regPopupShown = false;
+    openRegPopup();
+    switchPopupTab('login');
+  }, 100);
+}
+
+// ══════════ LIGHTBOX ══════════
+function openLightbox(url, caption) {
+  document.getElementById('lightbox-img').src = url;
+  document.getElementById('lightbox-caption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+
+let regPopupShown = false;
+let scrollTimer = null;
+let scrollSeconds = 0;
+
+function switchPopupTab(tab) {
+  const regView = document.getElementById('reg-form-view');
+  const loginView = document.getElementById('pop-login-view');
+  const successView = document.getElementById('reg-success-view');
+  const tabReg = document.getElementById('pop-tab-register');
+  const tabLogin = document.getElementById('pop-tab-login');
+
+  successView.style.display = 'none';
+  if (tab === 'register') {
+    regView.style.display = 'block';
+    loginView.style.display = 'none';
+    tabReg.style.cssText = 'flex:1;text-align:center;padding:12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--green);border-bottom:2px solid var(--green);';
+    tabLogin.style.cssText = 'flex:1;text-align:center;padding:12px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;';
+  } else {
+    regView.style.display = 'none';
+    loginView.style.display = 'block';
+    tabLogin.style.cssText = 'flex:1;text-align:center;padding:12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--green);border-bottom:2px solid var(--green);';
+    tabReg.style.cssText = 'flex:1;text-align:center;padding:12px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;';
+  }
+}
+
+function initRegPopupTimer() {
+  // Only called when tour was already seen but user not registered
+  // Trigger popup after 10s scroll or 20s on page
+  window.addEventListener('scroll', () => {
+    if (regPopupShown || localStorage.getItem('yv_user')) return;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      scrollSeconds += 2;
+      if (scrollSeconds >= 10) openRegPopup();
+    }, 2000);
+  });
+  setTimeout(() => {
+    if (!regPopupShown && !localStorage.getItem('yv_user')) openRegPopup();
+  }, 20000);
+}
+
+function openRegPopup() {
+  if (regPopupShown) return;
+  regPopupShown = true;
+  // Reset to register tab view
+  switchPopupTab('register');
+  document.getElementById('reg-success-view').style.display = 'none';
+  document.getElementById('reg-overlay').classList.add('open');
+}
+
+function closeRegPopup() {
+  document.getElementById('reg-overlay').classList.remove('open');
+}
+
+async function submitRegPopup() {
+  const fname    = document.getElementById('pop-fname').value.trim();
+  const lname    = document.getElementById('pop-lname').value.trim();
+  const email    = document.getElementById('pop-email').value.trim();
+  const phone    = document.getElementById('pop-phone').value.trim();
+  const city     = document.getElementById('pop-city').value.trim();
+  const interest = document.getElementById('pop-interest').value;
+
+  if (!fname || !email) { showToast('❌ Please enter your name and email.'); return; }
+  if (!email.includes('@')) { showToast('❌ Please enter a valid email.'); return; }
+
+  // ── Check if already registered locally ──
+  const existing = localStorage.getItem('yv_user');
+  if (existing) {
+    const eu = JSON.parse(existing);
+    if (eu.email.toLowerCase() === email.toLowerCase()) {
+      showToast('⚠️ Already registered! Switching to login.');
+      switchPopupTab('login');
+      return;
+    }
+  }
+
+  // ── Save to localStorage FIRST (works offline) ──
+  const userData = {
+    fname, lname, email, phone, city, interest,
+    joinedAt: new Date().toISOString(),
+    searches: []
+  };
+  localStorage.setItem('yv_user', JSON.stringify(userData));
+
+  // ── Show success immediately ──
+  document.getElementById('reg-form-view').style.display   = 'none';
+  document.getElementById('reg-success-view').style.display = 'block';
+  showToast(`🎉 Welcome, ${fname}!`);
+  setTimeout(() => { loadReturningUser(userData); }, 1200);
+
+  // ── Try backend in background (optional) ──
+  try {
+    const res = await apiCall('/auth/register', 'POST', {
+      first_name: fname, last_name: lname,
+      email, phone, city, interest
+    });
+    if (res.ok && res.data.token) {
+      localStorage.setItem('yv_token', res.data.token);
+      if (res.data.user?.id) {
+        userData.id = res.data.user.id;
+        localStorage.setItem('yv_user', JSON.stringify(userData));
+      }
+    }
+  } catch(e) { /* backend offline — localStorage is enough */ }
+}
+
+async function submitPopupLogin() {
+  const email = document.getElementById('pop-login-email').value.trim();
+  if (!email) { showToast('❌ Please enter your email.'); return; }
+  if (!email.includes('@')) { showToast('❌ Please enter a valid email.'); return; }
+
+  // ── Check localStorage FIRST (works offline) ──
+  const stored = localStorage.getItem('yv_user');
+  if (stored) {
+    const user = JSON.parse(stored);
+    if (user.email.toLowerCase() === email.toLowerCase()) {
+      document.getElementById('pop-login-view').style.display  = 'none';
+      document.getElementById('reg-success-view').style.display = 'block';
+      document.querySelector('#reg-success-view h3').textContent = `Welcome back, ${user.fname}!`;
+      document.querySelector('#reg-success-view p').textContent  = 'You are now logged in. Happy exploring!';
+      showToast(`✅ Welcome back, ${user.fname}!`);
+      setTimeout(() => loadReturningUser(user), 1000);
+
+      
+      try {
+        const res = await apiCall('/auth/login', 'POST', { email });
+        if (res.ok && res.data.token) {
+          localStorage.setItem('yv_token', res.data.token);
+        }
+      } catch(e) { /* offline — localStorage worked fine */ }
+      return;
+    }
+  }
+
+  
+  try {
+    const res = await apiCall('/auth/login', 'POST', { email });
+    if (res.ok) {
+      const u = res.data.user;
+      const userData = {
+        fname: u.first_name, lname: u.last_name,
+        email: u.email, phone: u.phone,
+        city: u.city, interest: u.interest,
+        id: u.id, searches: []
+      };
+      localStorage.setItem('yv_user',  JSON.stringify(userData));
+      localStorage.setItem('yv_token', res.data.token || '');
+      document.getElementById('pop-login-view').style.display  = 'none';
+      document.getElementById('reg-success-view').style.display = 'block';
+      document.querySelector('#reg-success-view h3').textContent = `Welcome back, ${u.first_name}!`;
+      document.querySelector('#reg-success-view p').textContent  = 'You are now logged in. Happy exploring!';
+      showToast(`✅ Welcome back, ${u.first_name}!`);
+      setTimeout(() => loadReturningUser(userData), 1000);
+      return;
+    }
+  } catch(e) { /* backend offline */ }
+
+  
+  showToast('❌ No account found with this email. Please register!');
+  switchPopupTab('register');
+}
+
+function loadReturningUser(user) {
+  const initials = (((user.fname||'?')[0]) + ((user.lname||'U')[0])).toUpperCase();
+  const fullName = [user.fname, user.lname].filter(Boolean).join(' ');
+
+  
+  document.getElementById('user-nav-av').textContent = initials;
+  document.getElementById('user-nav-name').textContent = user.fname || 'User';
+  document.getElementById('user-nav-pill').classList.add('show');
+  const loginBtn = document.getElementById('nav-login-btn');
+  if (loginBtn) loginBtn.style.display = 'none';
+  const regBtn = document.getElementById('nav-user-reg-btn');
+  if (regBtn) regBtn.style.display = 'none';
+
+  // Dropdown header
+  document.getElementById('dd-av').textContent = initials;
+  document.getElementById('dd-name').textContent = fullName || 'Traveler';
+  document.getElementById('dd-email').textContent = user.email || '';
+
+  // Show welcome bar
+  document.getElementById('wb-name').textContent = user.fname || 'Traveler';
+  document.getElementById('welcome-back-bar').classList.add('show');
+
+  // Show search history chips if any
+  if (user.searches && user.searches.length > 0) {
+    const wrap  = document.getElementById('search-history-wrap');
+    const chips = document.getElementById('search-history-chips');
+    wrap.classList.add('show');
+    chips.innerHTML = [...new Set(user.searches)].slice(0, 5).map(s =>
+      `<button class="sh-chip" onclick="goToSearch('${s}')">${s}</button>`
+    ).join('');
+  }
+}
+
+function showSearchHistory() {
+  const user = JSON.parse(localStorage.getItem('yv_user') || '{}');
+  if (user.searches && user.searches.length) {
+    goToSearch(user.searches[0]);
+  }
+}
+
+async function saveSearchToHistory(query) {
+  if (!query) return;
+  const stored = localStorage.getItem('yv_user');
+  if (stored) {
+    const user = JSON.parse(stored);
+    if (!user.searches) user.searches = [];
+    user.searches = [query, ...user.searches.filter(s => s !== query)].slice(0, 10);
+    localStorage.setItem('yv_user', JSON.stringify(user));
+  }
+  try {
+    const token = localStorage.getItem('yv_token');
+    if (token) await apiCall('/users/search-history', 'POST', { query });
+  } catch(e) { /* offline */ }
+}
+
+
+const tourSteps = [
+  {
+    title: '🔍 Search Any Tour or Destination',
+    desc: 'Start here! Type anything — "Goa", "Hill Station", "Budget Tour under 10,000" — and instantly find the best matching tours across India.',
+    target: '.search-wrap',
+    position: 'below',
+    highlight: true,
+  },
+  {
+    title: '🏷️ Filter by Tour Category',
+    desc: 'Want a Beach holiday? Hill adventure? Heritage trail? Just click any category chip here to instantly filter tours. You can also combine with search!',
+    target: '.filters-row',
+    position: 'below',
+    highlight: true,
+  },
+  {
+    title: '🗺️ Browse Beautiful Tour Cards',
+    desc: 'Each card shows the destination photo, tour name, duration, group size, rating and price — everything at a glance. Click any card to see full itinerary and photos!',
+    target: '.tours-grid',
+    position: 'below',
+    highlight: true,
+  },
+  {
+    title: '📊 Compare Tour Prices',
+    desc: 'See how our tour prices compare with the market average. The green bars are YatraVerse prices — always better value! "Save 18%" means you save that much vs booking elsewhere.',
+    target: '.price-chart-section',
+    position: 'above',
+    highlight: true,
+  },
+  {
+    title: '🏢 Meet Our Verified Travel Agencies',
+    desc: 'All our agencies are manually verified. You can view their full profile — contact number, WhatsApp, email — and book directly. Zero commission, zero middlemen!',
+    target: '.agents-grid',
+    position: 'above',
+    highlight: true,
+  },
+  {
+    title: '📞 Contact Agent Directly',
+    desc: 'Like a tour? Click "View Details", read the full day-by-day itinerary, then hit "Contact Agent" to call or WhatsApp them personally. Simple and transparent!',
+    target: '.agents-grid',
+    position: 'above',
+    highlight: true,
+  },
+  {
+    title: '🎉 You\'re All Set!',
+    desc: 'That\'s everything! Now create your free account to save your searches, get price drop alerts, and receive new tour notifications. It\'s completely free!',
+    target: '.search-wrap',
+    position: 'below',
+    highlight: false,
+    isLast: true,
+  },
+];
+
+let tourStep = 0;
+let tourActive = false;
+
+
+function startFeatureTour() {
+  tourStep = -1; // -1 = welcome screen
+  tourActive = true;
+  showWelcomeScreen();
+}
+
+function showWelcomeScreen() {
+  // Show a welcome bubble in center
+  const backdrop = document.getElementById('tour-backdrop');
+  backdrop.classList.add('on');
+
+  const bubble = document.getElementById('tour-bubble');
+  bubble.className = 'tour-bubble on';
+  bubble.style.position = 'fixed';
+  bubble.style.top = '50%';
+  bubble.style.left = '50%';
+  bubble.style.transform = 'translate(-50%, -50%)';
+  bubble.style.maxWidth = '340px';
+  bubble.style.zIndex = '702';
+
+  document.getElementById('tb-step').textContent = 'WELCOME TO WANDERHUB';
+  document.getElementById('tb-title').innerHTML = '👋 Hi there, Traveler!';
+  document.getElementById('tb-desc').innerHTML = `
+    <div style="margin-bottom:10px;">I'm going to give you a <strong>quick tour</strong> of YatraVerse — India's best travel platform.</div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text-muted);">
+      <div>✅ How to search & find tours</div>
+      <div>✅ How to compare prices</div>
+      <div>✅ How to contact agents directly</div>
+      <div>✅ How to register for free benefits</div>
+    </div>
+  `;
+  document.getElementById('tb-next-btn').textContent = 'Start Tour →';
+  document.getElementById('tb-skip').textContent = 'Skip, I\'ll explore myself';
+
+  // Hide dots on welcome screen
+  document.getElementById('tb-dots').innerHTML = '';
+}
+
+function showTourStep(idx) {
+  const step = tourSteps[idx];
+
+  // Remove welcome screen transform
+  const bubble = document.getElementById('tour-bubble');
+  bubble.style.transform = '';
+  bubble.style.position = 'absolute';
+
+  // Find target element
+  const targetEl = document.querySelector(step.target);
+  if (!targetEl) { nextTourStep(); return; }
+
+  
+  targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  setTimeout(() => {
+    const rect = targetEl.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    const pad = 8;
+
+    
+    const spotlight = document.getElementById('tour-spotlight');
+    if (step.highlight) {
+      spotlight.style.cssText = `
+        display: block;
+        position: absolute;
+        top: ${rect.top + scrollY - pad}px;
+        left: ${Math.max(0, rect.left - pad)}px;
+        width: ${rect.width + pad * 2}px;
+        height: ${rect.height + pad * 2}px;
+        border-radius: 12px;
+        box-shadow: 0 0 0 9999px rgba(0,0,0,0.65);
+        pointer-events: none;
+        z-index: 701;
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        border: 2px solid rgba(29,158,117,0.8);
+      `;
+    } else {
+      spotlight.style.cssText = 'display:none';
+    }
+
+    
+    bubble.className = 'tour-bubble on';
+    document.getElementById('tb-step').textContent = `STEP ${idx + 1} OF ${tourSteps.length}`;
+    document.getElementById('tb-title').innerHTML = step.title;
+    document.getElementById('tb-desc').textContent = step.desc;
+    document.getElementById('tb-next-btn').textContent = step.isLast ? 'Create Free Account 🎉' : 'Next →';
+    document.getElementById('tb-skip').textContent = 'Skip tour';
+
+    
+    document.getElementById('tb-dots').innerHTML = tourSteps.map((_, i) =>
+      `<div class="tb-dot ${i === idx ? 'active' : ''}"></div>`
+    ).join('');
+
+    
+    const bubbleWidth = 300;
+    let bubbleTop, bubbleLeft;
+
+    if (step.position === 'above') {
+      bubbleTop = rect.top + scrollY - 180;
+    } else {
+      bubbleTop = rect.bottom + scrollY + 14;
+    }
+
+    bubbleLeft = Math.max(12,
+      Math.min(rect.left + rect.width / 2 - bubbleWidth / 2,
+        window.innerWidth - bubbleWidth - 12));
+
+    bubble.style.top = `${bubbleTop}px`;
+    bubble.style.left = `${bubbleLeft}px`;
+    bubble.style.maxWidth = `${bubbleWidth}px`;
+    bubble.style.position = 'absolute';
+    bubble.style.zIndex = '702';
+
+    
+    bubble.classList.add(step.position === 'above' ? 'arrow-bottom' : 'arrow-top');
+
+  }, 450);
+}
+
+function nextTourStep() {
+  if (tourStep === -1) {
+    // Welcome screen → go to step 0
+    tourStep = 0;
+    showTourStep(0);
+    return;
+  }
+  tourStep++;
+  if (tourStep >= tourSteps.length) {
+    endFeatureTour();
+    return;
+  }
+  showTourStep(tourStep);
+}
+
+function endFeatureTour() {
+  tourActive = false;
+  document.getElementById('tour-backdrop').classList.remove('on');
+  document.getElementById('tour-spotlight').style.cssText = 'display:none';
+  document.getElementById('tour-bubble').classList.remove('on');
+  document.getElementById('tour-bubble').style.transform = '';
+  localStorage.setItem('yv_tour_seen', '1');
+
+  // Tour done → open Registration popup after short delay
+  if (!localStorage.getItem('yv_user')) {
+    setTimeout(() => openRegPopup(), 500);
+  }
+}
+
+
+function renderPriceChart() {
+  const bars = document.getElementById('price-chart-bars');
+  const avgMultiplier = [1.18, 1.22, 1.15, 1.20, 1.25, 1.17];
+  const maxPrice = Math.max(...toursData.map(t => t.price * 1.25));
+  const chartHeight = 160;
+
+  bars.innerHTML = toursData.map((t, i) => {
+    const ourH = Math.round((t.price / maxPrice) * chartHeight);
+    const avgPrice = Math.round(t.price * avgMultiplier[i % avgMultiplier.length]);
+    const avgH = Math.round((avgPrice / maxPrice) * chartHeight);
+    const saving = Math.round(((avgPrice - t.price) / avgPrice) * 100);
+    const shortName = t.dest.split(' ')[0];
+
+    return `
+      <div class="chart-bar-group">
+        <div class="chart-bar-wrap">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="chart-bar-price">₹${(t.price/1000).toFixed(0)}k</div>
+            <div class="chart-bar primary" style="height:${ourH}px;" title="${t.name}: ₹${t.price.toLocaleString()}"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="chart-bar-price" style="color:var(--gray-400);">₹${(avgPrice/1000).toFixed(0)}k</div>
+            <div class="chart-bar avg" style="height:${avgH}px;" title="Market avg: ₹${avgPrice.toLocaleString()}"></div>
+          </div>
+        </div>
+        <div class="chart-bar-label">${shortName}</div>
+        ${saving > 0 ? `<div style="font-size:9px;color:var(--green);font-weight:600;margin-top:2px;">Save ${saving}%</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+
+function initScrollBehavior() {
+  const heroSection = document.querySelector('.hero');
+  const stickySearch = document.getElementById('sticky-search');
+  const scrollBtn = document.getElementById('scroll-top-btn');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    
+    // Sticky search
+    if (heroSection) {
+      const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+      stickySearch.classList.toggle('visible', scrollY > heroBottom);
+    }
+    
+    // Scroll to top button
+    scrollBtn.classList.toggle('visible', scrollY > 400);
+  });
+}
+
+
+renderTours(toursData);
+renderAgents();
+renderPriceChart();
+initScrollBehavior();
+
+(function () {
+  const stored = localStorage.getItem('yv_user');
+  if (stored) {
+    loadReturningUser(JSON.parse(stored));
+    return;
+  }
+  if (!localStorage.getItem('yv_tour_seen')) {
+    setTimeout(() => startFeatureTour(), 1500);
+  } else {
+    initRegPopupTimer();
+  }
+})();
+</script>
+</body>
+</html>
