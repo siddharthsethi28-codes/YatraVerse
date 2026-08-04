@@ -1,72 +1,42 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from dotenv import load_dotenv
+from db import get_db_connection
 import os
 
-# Load environment variables from .env file
-load_dotenv()
+app = Flask(__name__)
+CORS(app)
 
-# Import database and routes from root directory
-from db import init_db
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'default_jwt_secret_key')
+
+# Test database connection on startup
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    try:
+        conn = get_db_connection()
+        conn.close()
+        return {"status": "ok", "message": "Server & DB connection healthy!"}, 200
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 500
+
+@app.route('/', methods=['GET'])
+def root():
+    return {
+        "message": "WanderHub API is running! 🌍",
+        "version": "1.0.0"
+    }, 200
+
+# Import and register blueprints
 from auth import auth_bp
 from tours import tours_bp
 from users import users_bp
 
-# ─────────────────────────────────────────
-#   Create Flask App
-# ─────────────────────────────────────────
-app = Flask(__name__)
-
-# ── Config ──
-app.config['SECRET_KEY']             = os.getenv('SECRET_KEY', 'wanderhub_secret')
-app.config['JWT_SECRET_KEY']         = os.getenv('JWT_SECRET_KEY', 'wanderhub_jwt_secret')
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False  # Token never expires (change in production)
-
-# ── Extensions ──
-CORS(app, origins=[os.getenv('FRONTEND_URL', 'http://localhost:3000'), 'null', '*'])
-jwt  = JWTManager(app)
-db   = init_db(app)
-
-# ── Register Blueprints (routes) ──
-app.register_blueprint(auth_bp,  url_prefix='/api/auth')
+app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(tours_bp, url_prefix='/api/tours')
 app.register_blueprint(users_bp, url_prefix='/api/users')
 
-# ─────────────────────────────────────────
-#   Root health check
-# ─────────────────────────────────────────
-@app.route('/')
-def index():
-    return jsonify({
-        'message': 'WanderHub API is running! 🌍',
-        'version': '1.0.0',
-        'endpoints': {
-            'auth':  '/api/auth',
-            'tours': '/api/tours',
-            'users': '/api/users'
-        }
-    })
-
-@app.route('/api/health')
-def health():
-    return jsonify({'status': 'ok', 'message': 'Server is healthy'}), 200
-
-# ─────────────────────────────────────────
-#   JWT Error Handlers
-# ─────────────────────────────────────────
-@jwt.unauthorized_loader
-def unauthorized(reason):
-    return jsonify({'error': 'Login required', 'reason': reason}), 401
-
-@jwt.invalid_token_loader
-def invalid_token(reason):
-    return jsonify({'error': 'Invalid token', 'reason': reason}), 422
-
-# ─────────────────────────────────────────
-#   Run Server
-# ─────────────────────────────────────────
 if __name__ == '__main__':
+    app.run(debug=True)
     port = int(os.getenv('PORT', 5000))
     debug = os.getenv('FLASK_DEBUG', 'True') == 'True'
     print(f"\n🚀 WanderHub Backend running on http://localhost:{port}")
