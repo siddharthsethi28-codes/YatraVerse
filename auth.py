@@ -40,7 +40,7 @@ def register():
         INSERT INTO users (first_name, last_name, email, phone, city, interest)
         VALUES (%s, %s, %s, %s, %s, %s)
     """, (first_name, last_name, email, phone, city, interest))
-    mysql.connection.commit()
+    cur.connection.commit()
 
     user_id = cur.lastrowid
     cur.close()
@@ -189,7 +189,7 @@ def agency_register():
         INSERT INTO agencies (agency_name, owner_name, email, phone, city, password, specialization)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
     """, (agency_name, owner_name, email, phone, city, hashed, spec))
-    mysql.connection.commit()
+    cur.connection.commit()
     agency_id = cur.lastrowid
     cur.close()
 
