@@ -52,7 +52,7 @@ def update_profile():
     params.append(user_id)
     conn = get_db_connection() cur = conn.cursor()
     cur.execute(f"UPDATE users SET {', '.join(updates)} WHERE id = %s", params)
-    mysql.connection.commit()
+    conn.commit()
     cur.close()
 
     return jsonify({'message': 'Profile updated successfully'}), 200
@@ -73,7 +73,8 @@ def save_search():
     if not query:
         return jsonify({'error': 'Query is required'}), 400
 
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection() 
+    cur = conn.cursor()
     # Avoid duplicate recent searches
     cur.execute("""
         SELECT id FROM search_history
@@ -87,8 +88,9 @@ def save_search():
     else:
         cur.execute("INSERT INTO search_history (user_id, query) VALUES (%s, %s)", (user_id, query))
 
-    mysql.connection.commit()
+    conn.commit()
     cur.close()
+    conn.close()
 
     return jsonify({'message': 'Search saved'}), 200
 
@@ -112,6 +114,7 @@ def get_search_history():
     """, (user_id,))
     history = cur.fetchall()
     cur.close()
+    conn.close()
 
     return jsonify({'history': history}), 200
 
@@ -126,9 +129,11 @@ def clear_search_history():
     identity = get_jwt_identity()
     user_id  = identity['id']
 
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("DELETE FROM search_history WHERE user_id = %s", (user_id,))
-    mysql.connection.commit()
+    conn.commit()
     cur.close()
+    conn.close()
 
     return jsonify({'message': 'Search history cleared'}), 200
