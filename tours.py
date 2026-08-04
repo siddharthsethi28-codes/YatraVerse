@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from config.db import mysql
+from db import get_db_connection
 from middleware.auth_middleware import agency_required, user_required
 
 tours_bp = Blueprint('tours', __name__)
@@ -15,7 +15,7 @@ def get_all_tours():
     category = request.args.get('category', '').strip()
     sort     = request.args.get('sort', 'id')
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
 
     sql = """
         SELECT t.*, a.agency_name, a.phone as agency_phone,
@@ -64,7 +64,7 @@ def get_all_tours():
 # ─────────────────────────────────────────
 @tours_bp.route('/<int:tour_id>', methods=['GET'])
 def get_tour(tour_id):
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     cur.execute("""
         SELECT t.*, a.agency_name, a.owner_name, a.phone as agency_phone,
                a.email as agency_email, a.city as agency_city,
@@ -118,14 +118,15 @@ def add_tour():
     if isinstance(itinerary, list):
         itinerary = '|'.join(itinerary)
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("""
         INSERT INTO tours (agency_id, name, destination, duration, price,
                            category, group_size, description, highlights, itinerary, is_hot)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (agency_id, name, destination, duration, price,
           category, group_size, description, highlights, itinerary, is_hot))
-    mysql.connection.commit()
+    conn.commit()
     tour_id = cur.lastrowid
     cur.close()
 
@@ -146,7 +147,7 @@ def update_tour(tour_id):
     agency_id = identity['id']
     data      = request.get_json()
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     cur.execute("SELECT id FROM tours WHERE id = %s AND agency_id = %s", (tour_id, agency_id))
     if not cur.fetchone():
         return jsonify({'error': 'Tour not found or not authorized'}), 404
@@ -170,7 +171,7 @@ def update_tour(tour_id):
 
     params += [tour_id, agency_id]
     cur.execute(f"UPDATE tours SET {', '.join(updates)} WHERE id = %s AND agency_id = %s", params)
-    mysql.connection.commit()
+    conn.commit()
     cur.close()
 
     return jsonify({'message': 'Tour updated successfully'}), 200
@@ -186,13 +187,13 @@ def delete_tour(tour_id):
     identity  = get_jwt_identity()
     agency_id = identity['id']
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     cur.execute("SELECT id FROM tours WHERE id = %s AND agency_id = %s", (tour_id, agency_id))
     if not cur.fetchone():
         return jsonify({'error': 'Tour not found or not authorized'}), 404
 
     cur.execute("DELETE FROM tours WHERE id = %s AND agency_id = %s", (tour_id, agency_id))
-    mysql.connection.commit()
+    conn.commit()
     cur.close()
 
     return jsonify({'message': 'Tour deleted successfully'}), 200
@@ -208,7 +209,8 @@ def get_my_tours():
     identity  = get_jwt_identity()
     agency_id = identity['id']
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() 
+    cur = conn.cursor()
     cur.execute("SELECT * FROM tours WHERE agency_id = %s ORDER BY created_at DESC", (agency_id,))
     tours = cur.fetchall()
     cur.close()
