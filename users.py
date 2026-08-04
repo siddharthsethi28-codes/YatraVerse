@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from config.db import mysql
+from db import get_db_connection
 from middleware.auth_middleware import user_required
 
 users_bp = Blueprint('users', __name__)
@@ -15,7 +15,8 @@ def get_profile():
     identity = get_jwt_identity()
     user_id  = identity['id']
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("SELECT id, first_name, last_name, email, phone, city, interest, created_at FROM users WHERE id = %s", (user_id,))
     user = cur.fetchone()
     cur.close()
@@ -49,7 +50,7 @@ def update_profile():
         return jsonify({'error': 'Nothing to update'}), 400
 
     params.append(user_id)
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     cur.execute(f"UPDATE users SET {', '.join(updates)} WHERE id = %s", params)
     mysql.connection.commit()
     cur.close()
@@ -72,7 +73,7 @@ def save_search():
     if not query:
         return jsonify({'error': 'Query is required'}), 400
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     # Avoid duplicate recent searches
     cur.execute("""
         SELECT id FROM search_history
@@ -102,7 +103,7 @@ def get_search_history():
     identity = get_jwt_identity()
     user_id  = identity['id']
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     cur.execute("""
         SELECT query, searched_at FROM search_history
         WHERE user_id = %s
@@ -125,7 +126,7 @@ def clear_search_history():
     identity = get_jwt_identity()
     user_id  = identity['id']
 
-    cur = mysql.connection.cursor()
+    conn = get_db_connection() cur = conn.cursor()
     cur.execute("DELETE FROM search_history WHERE user_id = %s", (user_id,))
     mysql.connection.commit()
     cur.close()
