@@ -20,6 +20,7 @@ def get_profile():
     cur.execute("SELECT id, first_name, last_name, email, phone, city, interest, created_at FROM users WHERE id = %s", (user_id,))
     user = cur.fetchone()
     cur.close()
+    
 
     if not user:
         return jsonify({'error': 'User not found'}), 404
@@ -50,10 +51,12 @@ def update_profile():
         return jsonify({'error': 'Nothing to update'}), 400
 
     params.append(user_id)
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute(f"UPDATE users SET {', '.join(updates)} WHERE id = %s", params)
     conn.commit()
     cur.close()
+    conn.close()
 
     return jsonify({'message': 'Profile updated successfully'}), 200
 
@@ -105,7 +108,8 @@ def get_search_history():
     identity = get_jwt_identity()
     user_id  = identity['id']
 
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("""
         SELECT query, searched_at FROM search_history
         WHERE user_id = %s
