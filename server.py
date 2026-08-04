@@ -7,11 +7,11 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Import database and routes
-from config.db import init_db
-from routes.auth import auth_bp
-from routes.tours import tours_bp
-from routes.users import users_bp
+# Import database and routes from root directory
+from db import init_db
+from auth import auth_bp
+from tours import tours_bp
+from users import users_bp
 
 # ─────────────────────────────────────────
 #   Create Flask App
