@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
 from db import get_db_connection
-from middleware.auth_middleware import agency_required, user_required
+from auth_middleware import agency_required, user_required
 
 tours_bp = Blueprint('tours', __name__)
 
