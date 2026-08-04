@@ -15,7 +15,8 @@ def get_all_tours():
     category = request.args.get('category', '').strip()
     sort     = request.args.get('sort', 'id')
 
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
 
     sql = """
         SELECT t.*, a.agency_name, a.phone as agency_phone,
@@ -64,7 +65,8 @@ def get_all_tours():
 # ─────────────────────────────────────────
 @tours_bp.route('/<int:tour_id>', methods=['GET'])
 def get_tour(tour_id):
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("""
         SELECT t.*, a.agency_name, a.owner_name, a.phone as agency_phone,
                a.email as agency_email, a.city as agency_city,
