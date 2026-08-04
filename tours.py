@@ -129,6 +129,7 @@ def add_tour():
     conn.commit()
     tour_id = cur.lastrowid
     cur.close()
+    conn.close()
 
     return jsonify({
         'message': f'Tour "{name}" published successfully!',
@@ -147,7 +148,8 @@ def update_tour(tour_id):
     agency_id = identity['id']
     data      = request.get_json()
 
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("SELECT id FROM tours WHERE id = %s AND agency_id = %s", (tour_id, agency_id))
     if not cur.fetchone():
         return jsonify({'error': 'Tour not found or not authorized'}), 404
@@ -173,6 +175,7 @@ def update_tour(tour_id):
     cur.execute(f"UPDATE tours SET {', '.join(updates)} WHERE id = %s AND agency_id = %s", params)
     conn.commit()
     cur.close()
+    conn.close()
 
     return jsonify({'message': 'Tour updated successfully'}), 200
 
@@ -187,7 +190,8 @@ def delete_tour(tour_id):
     identity  = get_jwt_identity()
     agency_id = identity['id']
 
-    conn = get_db_connection() cur = conn.cursor()
+    conn = get_db_connection()
+    cur = conn.cursor()
     cur.execute("SELECT id FROM tours WHERE id = %s AND agency_id = %s", (tour_id, agency_id))
     if not cur.fetchone():
         return jsonify({'error': 'Tour not found or not authorized'}), 404
@@ -195,6 +199,7 @@ def delete_tour(tour_id):
     cur.execute("DELETE FROM tours WHERE id = %s AND agency_id = %s", (tour_id, agency_id))
     conn.commit()
     cur.close()
+    conn.close()
 
     return jsonify({'message': 'Tour deleted successfully'}), 200
 
