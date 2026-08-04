@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
-from config.db import mysql
+from db import get_db_connection
 import bcrypt
 
 auth_bp = Blueprint('auth', __name__)
@@ -27,7 +27,7 @@ def register():
     if '@' not in email:
         return jsonify({'error': 'Invalid email address'}), 400
 
-    cur = mysql.connection.cursor()
+    cur = get_db_connection()
 
     # Check if email already registered
     cur.execute("SELECT id FROM users WHERE email = %s", (email,))
@@ -80,7 +80,7 @@ def login():
     if not email:
         return jsonify({'error': 'Email is required'}), 400
 
-    cur = mysql.connection.cursor()
+    cur = get_db_connection()
     cur.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cur.fetchone()
     cur.close()
@@ -124,7 +124,7 @@ def agency_login():
     if not email or not password:
         return jsonify({'error': 'Email and password required'}), 400
 
-    cur = mysql.connection.cursor()
+    cur = get_db_connection()
     cur.execute("SELECT * FROM agencies WHERE email = %s", (email,))
     agency = cur.fetchone()
     cur.close()
@@ -180,7 +180,7 @@ def agency_register():
     # Hash password
     hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-    cur = mysql.connection.cursor()
+    cur = get_db_connection()
     cur.execute("SELECT id FROM agencies WHERE email = %s", (email,))
     if cur.fetchone():
         return jsonify({'error': 'Agency with this email already exists'}), 409
