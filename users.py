@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
 from db import get_db_connection
-from middleware.auth_middleware import user_required
+from auth_middleware import user_required
 
 users_bp = Blueprint('users', __name__)
 
